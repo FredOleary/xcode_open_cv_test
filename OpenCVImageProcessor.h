@@ -12,6 +12,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OpenCVImageProcessor : NSObject<CvVideoCameraDelegate>
+- (id)initWithOpenCVView:(UIImageView*)openCVView;
 - (void)processImage:(cv::Mat&)image;
 
 @end

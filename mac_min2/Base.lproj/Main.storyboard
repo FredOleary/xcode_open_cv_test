@@ -17,30 +17,34 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fIA-ss-gA4">
-                                <rect key="frame" x="103" y="531" width="208" height="37"/>
+                                <rect key="frame" x="103" y="578" width="208" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Fred"/>
                                 <connections>
                                     <action selector="sendFred:" destination="BYZ-38-t0r" eventType="touchUpInside" id="OPY-Zv-6oj"/>
                                 </connections>
                             </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Kn7-tI-QQG">
+                                <rect key="frame" x="36" y="265" width="321" height="242"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="foobar" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HLb-dT-Yty">
-                                <rect key="frame" x="104" y="502" width="226" height="21"/>
+                                <rect key="frame" x="94" y="536" width="226" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Em-DR-3XU">
-                                <rect key="frame" x="131" y="576" width="153" height="30"/>
+                                <rect key="frame" x="131" y="623" width="153" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Start Video"/>
                                 <connections>
                                     <action selector="startVideo:" destination="BYZ-38-t0r" eventType="touchUpInside" id="2WD-Jh-vtE"/>
                                 </connections>
                             </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Kn7-tI-QQG">
-                                <rect key="frame" x="30" y="44" width="321" height="408"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FLH-V1-eaH">
+                                <rect key="frame" x="44" y="53" width="313" height="181"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
@@ -51,6 +55,7 @@
                         <outlet property="buttonFred" destination="fIA-ss-gA4" id="yz2-uO-YPU"/>
                         <outlet property="buttonVideo" destination="6Em-DR-3XU" id="dVb-iG-1Ub"/>
                         <outlet property="imageFred" destination="Kn7-tI-QQG" id="zuT-EE-4HZ"/>
+                        <outlet property="imageOpenCV" destination="FLH-V1-eaH" id="ZtL-IA-SQ0"/>
                         <outlet property="labelFred" destination="HLb-dT-Yty" id="VSH-33-MTb"/>
                     </connections>
                 </viewController>

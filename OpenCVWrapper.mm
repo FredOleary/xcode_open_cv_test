@@ -40,9 +40,9 @@ OpenCVImageProcessor* imageProcessor;
         return outImage;
     }
 }
-+ (BOOL)initializeCamera: (UIImageView *)imageView{
++ (BOOL)initializeCamera: (UIImageView *)imageView :(UIImageView *)imageOpenCV{
 
-    imageProcessor = [OpenCVImageProcessor alloc];
+    imageProcessor = [[OpenCVImageProcessor alloc] initWithOpenCVView:imageOpenCV];
     videoCamera = [[CvVideoCamera alloc] initWithParentView:imageView];
     videoCamera.delegate = imageProcessor;
     videoCamera.defaultAVCaptureDevicePosition = AVCaptureDevicePositionFront;
@@ -63,11 +63,11 @@ OpenCVImageProcessor* imageProcessor;
     [videoCamera stop];
 }
 
-#pragma mark - Protocol CvVideoCameraDelegate
-
-- (void)processImage:(UIImageView *)image;
-{
-    NSLog(@"foo---");
-}
+//#pragma mark - Protocol CvVideoCameraDelegate
+//
+//- (void)processImage:(UIImageView *)image;
+//{
+//    NSLog(@"foo---");
+//}
     
 @end

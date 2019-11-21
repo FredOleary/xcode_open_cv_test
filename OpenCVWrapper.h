@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSString *)openCVVersionString;
 + (UIImage *)loadImage: (NSString *)imageName;
-+ (BOOL)initializeCamera: (UIImageView *)imageView;
++ (BOOL)initializeCamera: (UIImageView *)imageView: (UIImageView *)imageOpenCV;
 + (void) startCamera;
 + (void) stopCamera;
 

@@ -19,6 +19,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var labelFred: UILabel!
     @IBOutlet weak var buttonFred: UIButton!
     @IBOutlet weak var imageFred: UIImageView!
+    @IBOutlet weak var imageOpenCV: UIImageView!
     
     @IBAction func sendFred(_ sender: Any) {
         labelFred.text = OpenCVWrapper.openCVVersionString()
@@ -44,7 +45,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         print("\(OpenCVWrapper.openCVVersionString())")
-        OpenCVWrapper.initializeCamera(imageFred);
+        OpenCVWrapper.initializeCamera(imageFred, imageOpenCV);
     }
 
 
