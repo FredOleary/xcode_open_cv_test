@@ -16,6 +16,10 @@
 		53942167238359FB00418753 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53942166238359FB00418753 /* opencv2.framework */; };
 		5394216B23835A8B00418753 /* OpenCVWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5394216A23835A8B00418753 /* OpenCVWrapper.mm */; };
 		539421A92384721500418753 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5394213F2383599C00418753 /* Assets.xcassets */; };
+		539421AE2384CB6E00418753 /* OpenCVCamera.mm in Sources */ = {isa = PBXBuildFile; fileRef = 539421AD2384CB6E00418753 /* OpenCVCamera.mm */; };
+		539421B12384D55800418753 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 539421B02384D55800418753 /* AVFoundation.framework */; };
+		539421B32384D5FF00418753 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 539421B22384D5FF00418753 /* CoreMedia.framework */; };
+		539421B62386160300418753 /* OpenCVImageProcessor.mm in Sources */ = {isa = PBXBuildFile; fileRef = 539421B52386160300418753 /* OpenCVImageProcessor.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +58,12 @@
 		5394216923835A8B00418753 /* OpenCVWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenCVWrapper.h; sourceTree = "<group>"; };
 		5394216A23835A8B00418753 /* OpenCVWrapper.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVWrapper.mm; sourceTree = "<group>"; };
 		5394216C23835B3500418753 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		539421AC2384CB6E00418753 /* OpenCVCamera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenCVCamera.h; sourceTree = "<group>"; };
+		539421AD2384CB6E00418753 /* OpenCVCamera.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVCamera.mm; sourceTree = "<group>"; };
+		539421B02384D55800418753 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		539421B22384D5FF00418753 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		539421B42386160300418753 /* OpenCVImageProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenCVImageProcessor.h; sourceTree = "<group>"; };
+		539421B52386160300418753 /* OpenCVImageProcessor.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVImageProcessor.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +71,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				539421B32384D5FF00418753 /* CoreMedia.framework in Frameworks */,
+				539421B12384D55800418753 /* AVFoundation.framework in Frameworks */,
 				53942167238359FB00418753 /* opencv2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -85,8 +97,12 @@
 		5394212A2383599A00418753 = {
 			isa = PBXGroup;
 			children = (
+				539421AC2384CB6E00418753 /* OpenCVCamera.h */,
+				539421AD2384CB6E00418753 /* OpenCVCamera.mm */,
 				5394216923835A8B00418753 /* OpenCVWrapper.h */,
 				5394216A23835A8B00418753 /* OpenCVWrapper.mm */,
+				539421B42386160300418753 /* OpenCVImageProcessor.h */,
+				539421B52386160300418753 /* OpenCVImageProcessor.mm */,
 				5394216C23835B3500418753 /* PrefixHeader.pch */,
 				53942166238359FB00418753 /* opencv2.framework */,
 				539421352383599A00418753 /* mac_min2 */,
@@ -94,6 +110,7 @@
 				539421572383599C00418753 /* mac_min2UITests */,
 				539421342383599A00418753 /* Products */,
 				5394216823835A8B00418753 /* mac_min2-Bridging-Header.h */,
+				539421AF2384D55700418753 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -136,6 +153,15 @@
 				5394215A2383599C00418753 /* Info.plist */,
 			);
 			path = mac_min2UITests;
+			sourceTree = "<group>";
+		};
+		539421AF2384D55700418753 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				539421B22384D5FF00418753 /* CoreMedia.framework */,
+				539421B02384D55800418753 /* AVFoundation.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -271,8 +297,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				5394213B2383599A00418753 /* ViewController.swift in Sources */,
+				539421AE2384CB6E00418753 /* OpenCVCamera.mm in Sources */,
 				539421372383599A00418753 /* AppDelegate.swift in Sources */,
 				5394216B23835A8B00418753 /* OpenCVWrapper.mm in Sources */,
+				539421B62386160300418753 /* OpenCVImageProcessor.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

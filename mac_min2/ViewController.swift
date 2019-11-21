@@ -7,10 +7,15 @@
 //
 
 import UIKit
-//import OpenCVWrapper
+//import OpenCVCamera
 
 class ViewController: UIViewController {
+//    var foo = "ffoo";
+//    var xfoo:String = "xxx";
 
+    var cameraRunning:Bool = false;
+    
+    @IBOutlet weak var buttonVideo: UIButton!
     @IBOutlet weak var labelFred: UILabel!
     @IBOutlet weak var buttonFred: UIButton!
     @IBOutlet weak var imageFred: UIImageView!
@@ -21,12 +26,25 @@ class ViewController: UIViewController {
 //        imageFred.image = chat
         imageFred.image = OpenCVWrapper.loadImage("seama-sales-2-mock");
         buttonFred.setTitle("Yipeee", for: .normal)
-        
     }
+    
+    @IBAction func startVideo(_ sender: Any) {
+        if( !cameraRunning ){
+            cameraRunning = true;
+            OpenCVWrapper.startCamera();
+            buttonVideo.setTitle("Stop Video", for: .normal)
+        }else{
+            cameraRunning = false;
+            OpenCVWrapper.stopCamera();
+            buttonVideo.setTitle("Start Video", for: .normal)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         print("\(OpenCVWrapper.openCVVersionString())")
+        OpenCVWrapper.initializeCamera(imageFred);
     }
 
 
