@@ -13,17 +13,25 @@
 #import "OpenCVImageProcessor.h"
 #import <UIKit/UIKit.h>
 
-CvVideoCamera* videoCamera;
-OpenCVImageProcessor* imageProcessor;
+//CvVideoCamera* videoCamera;
+//OpenCVImageProcessor* imageProcessor;
 
 
-@implementation OpenCVWrapper
+@implementation OpenCVWrapper{
+    CvVideoCamera* videoCamera;
+    OpenCVImageProcessor* imageProcessor;
+}
 
+- (id) init {
+    NSLog(@"=================================");
+    return self;
+}
 
-+ (NSString *)openCVVersionString {
+- (NSString *)openCVVersionString {
     return [NSString stringWithFormat:@"OpenCV Version %s",  CV_VERSION];
 }
-+(UIImage *)loadImage: (NSString *)imageName{
+
+- (UIImage *)loadImage: (NSString *)imageName{
 
     UIImage* resImage = [UIImage imageNamed:imageName];
     
@@ -40,9 +48,9 @@ OpenCVImageProcessor* imageProcessor;
         return outImage;
     }
 }
-+ (BOOL)initializeCamera: (UIImageView *)imageView :(UIImageView *)imageOpenCV{
+- (BOOL)initializeCamera: (UIImageView *)imageView :(UIImageView *)imageOpenCV :(UILabel*)heartRateLabel{
 
-    imageProcessor = [[OpenCVImageProcessor alloc] initWithOpenCVView:imageOpenCV];
+    imageProcessor = [[OpenCVImageProcessor alloc] initWithOpenCVView:imageOpenCV:heartRateLabel];
     videoCamera = [[CvVideoCamera alloc] initWithParentView:imageView];
     videoCamera.delegate = imageProcessor;
     videoCamera.defaultAVCaptureDevicePosition = AVCaptureDevicePositionFront;
@@ -54,11 +62,11 @@ OpenCVImageProcessor* imageProcessor;
     return true;
 }
 
-+ (void) startCamera{
+- (void) startCamera{
     NSLog(@"Video Started---");
     [videoCamera start];
 }
-+ (void) stopCamera{
+- (void) stopCamera{
     NSLog(@"Video Stopped---");
     [videoCamera stop];
 }

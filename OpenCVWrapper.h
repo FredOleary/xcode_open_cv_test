@@ -37,11 +37,15 @@ NS_ASSUME_NONNULL_BEGIN
 @interface OpenCVWrapper : NSObject
 //CvVideoCamera* videoCamera;
 
-+ (NSString *)openCVVersionString;
-+ (UIImage *)loadImage: (NSString *)imageName;
-+ (BOOL)initializeCamera: (UIImageView *)imageView: (UIImageView *)imageOpenCV;
-+ (void) startCamera;
-+ (void) stopCamera;
+- (id) init;
+
+- (NSString *)openCVVersionString;
+- (UIImage *)loadImage: (NSString *)imageName;
+- (BOOL)initializeCamera: (UIImageView *)imageView
+                        : (UIImageView *)imageOpenCV
+                        : (UILabel*)heartRateLabel;
+- (void) startCamera;
+- (void) stopCamera;
 
 
 @end

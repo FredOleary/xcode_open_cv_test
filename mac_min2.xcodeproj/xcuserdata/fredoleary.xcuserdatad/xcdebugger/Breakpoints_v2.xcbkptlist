@@ -14,8 +14,8 @@
             filePath = "OpenCVWrapper.mm"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "70"
-            endingLineNumber = "70"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
             landmarkName = "OpenCVWrapper"
             landmarkType = "3">
          </BreakpointContent>
@@ -30,9 +30,9 @@
             filePath = "OpenCVWrapper.mm"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
-            landmarkName = "+initializeCamera::"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "-initializeCamera:::"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -46,9 +46,9 @@
             filePath = "OpenCVWrapper.mm"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "53"
-            endingLineNumber = "53"
-            landmarkName = "+initializeCamera::"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
+            landmarkName = "-initializeCamera:::"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -62,8 +62,8 @@
             filePath = "OpenCVImageProcessor.mm"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "23"
-            endingLineNumber = "23"
+            startingLineNumber = "30"
+            endingLineNumber = "30"
             landmarkName = "-processImage:"
             landmarkType = "7">
          </BreakpointContent>
@@ -78,9 +78,9 @@
             filePath = "OpenCVImageProcessor.mm"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "31"
-            endingLineNumber = "31"
-            landmarkName = "-initWithOpenCVView:"
+            startingLineNumber = "40"
+            endingLineNumber = "40"
+            landmarkName = "-initWithOpenCVView::"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

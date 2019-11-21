@@ -15,6 +15,9 @@ class ViewController: UIViewController {
 
     var cameraRunning:Bool = false;
     
+    var openCVWrapper:OpenCVWrapper = OpenCVWrapper();
+    
+    @IBOutlet weak var heartRateLabel: UILabel!
     @IBOutlet weak var buttonVideo: UIButton!
     @IBOutlet weak var labelFred: UILabel!
     @IBOutlet weak var buttonFred: UIButton!
@@ -22,21 +25,22 @@ class ViewController: UIViewController {
     @IBOutlet weak var imageOpenCV: UIImageView!
     
     @IBAction func sendFred(_ sender: Any) {
-        labelFred.text = OpenCVWrapper.openCVVersionString()
+        labelFred.text = openCVWrapper.openCVVersionString()
 //        let chat = UIImage(named: "seama-sales-2-mock")
 //        imageFred.image = chat
-        imageFred.image = OpenCVWrapper.loadImage("seama-sales-2-mock");
+        imageOpenCV.image = openCVWrapper.loadImage("seama-sales-2-mock");
+        imageFred.image = openCVWrapper.loadImage("seama-sales-2-mock");
         buttonFred.setTitle("Yipeee", for: .normal)
     }
     
     @IBAction func startVideo(_ sender: Any) {
         if( !cameraRunning ){
             cameraRunning = true;
-            OpenCVWrapper.startCamera();
+            openCVWrapper.startCamera();
             buttonVideo.setTitle("Stop Video", for: .normal)
         }else{
             cameraRunning = false;
-            OpenCVWrapper.stopCamera();
+            openCVWrapper.stopCamera();
             buttonVideo.setTitle("Start Video", for: .normal)
         }
     }
@@ -44,8 +48,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        print("\(OpenCVWrapper.openCVVersionString())")
-        OpenCVWrapper.initializeCamera(imageFred, imageOpenCV);
+        print("\(openCVWrapper.openCVVersionString())")
+        openCVWrapper.initializeCamera(imageFred, imageOpenCV, heartRateLabel);
     }
 
 
