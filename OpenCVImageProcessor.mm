@@ -9,6 +9,7 @@
 #import <opencv2/opencv.hpp>
 #import "OpenCVImageProcessor.h"
 #import <opencv2/imgcodecs/ios.h>
+#import <opencv2/tracking.hpp>
 #import <UIKit/UIKit.h>
 
 @implementation OpenCVImageProcessor{
@@ -17,22 +18,29 @@
     cv::CascadeClassifier faceDetector;
     int frameCount;
     bool faceDetected;
+    cv::Rect faceRect;
+    cv::Ptr<cv::Tracker> faceTracker;
 }
 
 - (void)processImage:(cv::Mat&)image;
 {
-//    cv::Mat gray;
-//    cv::cvtColor(image, gray, cv::ColorConversionCodes::COLOR_RGB2GRAY);
-//    UIImage* outImage = MatToUIImage(gray);
-//    UIImage* outImage = MatToUIImage(image);
-//    UIImage* outImage = UIImageFromCVMat(image);
-//    opencvView.image = outImage;
+    cv::Mat grayImage;
+    cv::cvtColor(image, grayImage, cv::ColorConversionCodes::COLOR_RGB2GRAY);
+    cv::Rect2d trackRect;
     
     if( faceDetected ){
-        
+        bool isfound = faceTracker->update(grayImage,trackRect);
+        if( isfound ){
+            cv::rectangle( image, trackRect, cv::Scalar( 255, 0, 0 ), 2, 1 );
+        }else{
+            NSLog(@"Lost tracking");
+            faceDetected = false;
+        }
     }else{
-        [self faceDetect:image];
-//        faceDetect(image);
+        faceDetected = [self faceDetect:grayImage];
+        cv::TrackerKCF::create();
+        faceTracker = cv::TrackerKCF::create();
+        faceTracker->init(grayImage,faceRect);
     }
     
     UIImage* outImage = [[self class] UIImageFromCVMat:image];
@@ -41,23 +49,22 @@
         self->heartrateLabel.text = [NSString stringWithFormat:@"Frame: %d", ++self->frameCount];
     });
 
-    NSLog(@"foo---");
 }
 - (id)initWithOpenCVView:(UIImageView*)openCVView :(UILabel*)heartRateLabel{
     opencvView = openCVView;
     heartrateLabel = heartRateLabel;
     frameCount = 0;
     faceDetected = false;
-    return self;
-}
-
-- (bool) faceDetect: (cv::Mat&) image {
     NSString *faceCascadePath = [[NSBundle mainBundle] pathForResource:@"haarcascade_frontalface_default"  ofType:@"xml"];
     const CFIndex CASCADE_NAME_LEN = 2048;
     char *CASCADE_NAME = (char *) malloc(CASCADE_NAME_LEN);
     CFStringGetFileSystemRepresentation( (CFStringRef)faceCascadePath, CASCADE_NAME, CASCADE_NAME_LEN);
     faceDetector.load(CASCADE_NAME);
-    
+
+    return self;
+}
+
+- (bool) faceDetect: (cv::Mat&) image {
     std::vector<cv::Rect> faceRects;
     double scalingFactor = 1.1;
     int minNeighbors = 2;
@@ -67,10 +74,12 @@
                                   scalingFactor, minNeighbors, flags,
                                   cv::Size(30, 30) );
     if( faceRects.size() > 0 ){
-        NSLog(@"found");
+        faceRect = faceRects[0];
+        NSLog(@"Face found");
+        return true;
+    }else{
+        return false;
     }
-    NSLog(@"foo---");
-    return false;
 }
 +(UIImage *)UIImageFromCVMat:(cv::Mat)cvMat {
     NSData *data = [NSData dataWithBytes:cvMat.data length:cvMat.elemSize()*cvMat.total()];
