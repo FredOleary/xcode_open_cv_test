@@ -14,23 +14,30 @@
 @implementation OpenCVImageProcessor{
     UIImageView* opencvView;
     UILabel* heartrateLabel;
+    cv::CascadeClassifier faceDetector;
     int frameCount;
+    bool faceDetected;
 }
 
 - (void)processImage:(cv::Mat&)image;
 {
-    cv::Mat gray;
-    cv::cvtColor(image, gray, cv::ColorConversionCodes::COLOR_RGB2GRAY);
-
+//    cv::Mat gray;
+//    cv::cvtColor(image, gray, cv::ColorConversionCodes::COLOR_RGB2GRAY);
 //    UIImage* outImage = MatToUIImage(gray);
-
 //    UIImage* outImage = MatToUIImage(image);
-    UIImage* outImage = [[self class] UIImageFromCVMat:image];
 //    UIImage* outImage = UIImageFromCVMat(image);
 //    opencvView.image = outImage;
+    
+    if( faceDetected ){
+        
+    }else{
+        [self faceDetect:image];
+//        faceDetect(image);
+    }
+    
+    UIImage* outImage = [[self class] UIImageFromCVMat:image];
     dispatch_async(dispatch_get_main_queue(), ^{
         self->opencvView.image = outImage;
-//        self->heartrateLabel.text = @"foobar";
         self->heartrateLabel.text = [NSString stringWithFormat:@"Frame: %d", ++self->frameCount];
     });
 
@@ -40,9 +47,31 @@
     opencvView = openCVView;
     heartrateLabel = heartRateLabel;
     frameCount = 0;
+    faceDetected = false;
     return self;
 }
 
+- (bool) faceDetect: (cv::Mat&) image {
+    NSString *faceCascadePath = [[NSBundle mainBundle] pathForResource:@"haarcascade_frontalface_default"  ofType:@"xml"];
+    const CFIndex CASCADE_NAME_LEN = 2048;
+    char *CASCADE_NAME = (char *) malloc(CASCADE_NAME_LEN);
+    CFStringGetFileSystemRepresentation( (CFStringRef)faceCascadePath, CASCADE_NAME, CASCADE_NAME_LEN);
+    faceDetector.load(CASCADE_NAME);
+    
+    std::vector<cv::Rect> faceRects;
+    double scalingFactor = 1.1;
+    int minNeighbors = 2;
+    int flags = 0;
+    cv::Size minimumSize(30,30);
+    faceDetector.detectMultiScale(image, faceRects,
+                                  scalingFactor, minNeighbors, flags,
+                                  cv::Size(30, 30) );
+    if( faceRects.size() > 0 ){
+        NSLog(@"found");
+    }
+    NSLog(@"foo---");
+    return false;
+}
 +(UIImage *)UIImageFromCVMat:(cv::Mat)cvMat {
     NSData *data = [NSData dataWithBytes:cvMat.data length:cvMat.elemSize()*cvMat.total()];
 

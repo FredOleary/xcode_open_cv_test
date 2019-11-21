@@ -20,6 +20,7 @@
 		539421B12384D55800418753 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 539421B02384D55800418753 /* AVFoundation.framework */; };
 		539421B32384D5FF00418753 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 539421B22384D5FF00418753 /* CoreMedia.framework */; };
 		539421B62386160300418753 /* OpenCVImageProcessor.mm in Sources */ = {isa = PBXBuildFile; fileRef = 539421B52386160300418753 /* OpenCVImageProcessor.mm */; };
+		539421B8238739D600418753 /* haarcascade_frontalface_default.xml in Resources */ = {isa = PBXBuildFile; fileRef = 539421B7238739D600418753 /* haarcascade_frontalface_default.xml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		539421B22384D5FF00418753 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		539421B42386160300418753 /* OpenCVImageProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenCVImageProcessor.h; sourceTree = "<group>"; };
 		539421B52386160300418753 /* OpenCVImageProcessor.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVImageProcessor.mm; sourceTree = "<group>"; };
+		539421B7238739D600418753 /* haarcascade_frontalface_default.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = haarcascade_frontalface_default.xml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +129,7 @@
 		539421352383599A00418753 /* mac_min2 */ = {
 			isa = PBXGroup;
 			children = (
+				539421B7238739D600418753 /* haarcascade_frontalface_default.xml */,
 				539421362383599A00418753 /* AppDelegate.swift */,
 				5394213A2383599A00418753 /* ViewController.swift */,
 				5394213C2383599A00418753 /* Main.storyboard */,
@@ -271,6 +274,7 @@
 			files = (
 				539421A92384721500418753 /* Assets.xcassets in Resources */,
 				539421432383599C00418753 /* LaunchScreen.storyboard in Resources */,
+				539421B8238739D600418753 /* haarcascade_frontalface_default.xml in Resources */,
 				5394213E2383599A00418753 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface OpenCVImageProcessor : NSObject<CvVideoCameraDelegate>
 - (id)initWithOpenCVView:(UIImageView*)openCVView :(UILabel*)heartRateLabel;
 - (void)processImage:(cv::Mat&)image;
+- (bool)faceDetect: (cv::Mat&) image;
 
 +(UIImage *)UIImageFromCVMat:(cv::Mat)cvMat;
 
