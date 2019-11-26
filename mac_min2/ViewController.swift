@@ -14,9 +14,11 @@ class ViewController: UIViewController {
 //    var xfoo:String = "xxx";
 
     var cameraRunning:Bool = false;
+    var showingMenu = false;
     
     var openCVWrapper:OpenCVWrapper = OpenCVWrapper();
     
+    @IBOutlet weak var LeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var heartRateLabel: UILabel!
     @IBOutlet weak var buttonVideo: UIButton!
     @IBOutlet weak var labelFred: UILabel!
@@ -50,8 +52,21 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
         print("\(openCVWrapper.openCVVersionString())")
         openCVWrapper.initializeCamera(imageFred, imageOpenCV, heartRateLabel);
+        
+        LeadingConstraint.constant = -250
     }
 
+    @IBAction func openMenu(_ sender: Any) {
+        if(showingMenu){
+            LeadingConstraint.constant = -250
+        }else{
+            LeadingConstraint.constant = 0
+            UIView.animate(withDuration: 0.2, delay:0.0, options: .curveEaseIn, animations:{
+                self.view.layoutIfNeeded()
+            })
+        }
+        showingMenu = !showingMenu
+    }
 
 }
 

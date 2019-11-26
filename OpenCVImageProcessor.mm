@@ -31,7 +31,9 @@
     if( faceDetected ){
         bool isfound = faceTracker->update(grayImage,trackRect);
         if( isfound ){
+            cv::Mat tmp = image(trackRect);
             cv::rectangle( image, trackRect, cv::Scalar( 255, 0, 0 ), 2, 1 );
+
         }else{
             NSLog(@"Lost tracking");
             faceDetected = false;
