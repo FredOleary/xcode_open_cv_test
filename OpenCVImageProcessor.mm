@@ -31,8 +31,9 @@
     if( faceDetected ){
         bool isfound = faceTracker->update(grayImage,trackRect);
         if( isfound ){
-            cv::Mat tmp = image(trackRect);
-            cv::rectangle( image, trackRect, cv::Scalar( 255, 0, 0 ), 2, 1 );
+            cv::Rect2d clipRect =  [[self class] clipRectToImage :trackRect :image];
+            cv::Mat tmp = image(clipRect);
+            cv::rectangle( image, clipRect, cv::Scalar( 255, 0, 0 ), 2, 1 );
 
         }else{
             NSLog(@"Lost tracking");
@@ -123,5 +124,11 @@
     CGColorSpaceRelease(colorSpace);
 
     return finalImage;
+}
++ (cv::Rect2d) clipRectToImage: (cv::Rect2d)clipRect :(cv::Mat&)image{
+    cv::Size s = image.size();
+    cv::Rect2d rectImage(0,0, s.width, s.height );
+    cv::Rect2d result = clipRect & rectImage;   // Intersection of the two rectangles
+    return result;
 }
 @end

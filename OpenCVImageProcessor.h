@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (bool)faceDetect: (cv::Mat&) image;
 
 +(UIImage *)UIImageFromCVMat:(cv::Mat)cvMat;
++(cv::Rect2d) clipRectToImage: (cv::Rect2d)clipRect :(cv::Mat&)image;
 
 @end
 
