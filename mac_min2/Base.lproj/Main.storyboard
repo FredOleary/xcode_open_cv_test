@@ -134,21 +134,45 @@
             </objects>
             <point key="canvasLocation" x="131.8840579710145" y="91.741071428571431"/>
         </scene>
-        <!--View Controller-->
+        <!--Raw Data View Controller-->
         <scene sceneID="8ij-pa-cof">
             <objects>
-                <viewController id="hNp-2X-Hjs" sceneMemberID="viewController">
+                <viewController id="hNp-2X-Hjs" customClass="RawDataViewController" customModule="mac_min2" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1yV-Pz-f4T">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemPurpleColor" red="0.68627450980000004" green="0.32156862749999998" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pv6-K5-quF">
+                                <rect key="frame" x="18" y="106" width="32" height="30"/>
+                                <state key="normal" title="Do it"/>
+                                <connections>
+                                    <action selector="showChart:" destination="hNp-2X-Hjs" eventType="touchUpInside" id="l8T-QB-ON9"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="M32-es-CmI" customClass="LineChartView" customModule="Charts">
+                                <rect key="frame" x="0.0" y="144" width="414" height="718"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="0.84984520971834054" blue="0.93075206054792126" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Pv6-K5-quF" firstAttribute="top" secondItem="gGQ-BV-K4f" secondAttribute="top" constant="18" id="0DQ-Ua-mcL"/>
+                            <constraint firstItem="M32-es-CmI" firstAttribute="centerX" secondItem="1yV-Pz-f4T" secondAttribute="centerX" id="FoX-hH-9qW"/>
+                            <constraint firstItem="Pv6-K5-quF" firstAttribute="leading" secondItem="gGQ-BV-K4f" secondAttribute="leading" constant="18" id="WlC-g0-C3l"/>
+                            <constraint firstItem="M32-es-CmI" firstAttribute="leading" secondItem="gGQ-BV-K4f" secondAttribute="leading" id="Y0B-kF-Lab"/>
+                            <constraint firstItem="M32-es-CmI" firstAttribute="bottom" secondItem="gGQ-BV-K4f" secondAttribute="bottom" id="ZYQ-JC-6fT"/>
+                            <constraint firstItem="M32-es-CmI" firstAttribute="top" secondItem="gGQ-BV-K4f" secondAttribute="top" constant="42" id="vDj-M2-l4r"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="gGQ-BV-K4f"/>
                     </view>
                     <navigationItem key="navigationItem" id="I7f-Xv-fvn"/>
+                    <connections>
+                        <outlet property="chtChart" destination="M32-es-CmI" id="BGy-TO-fmC"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EIz-4Z-tUm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="151" y="815"/>
+            <point key="canvasLocation" x="150.72463768115944" y="814.95535714285711"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="UAB-SI-lKm">
@@ -164,7 +188,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kT4-cg-G2k" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1577" y="739"/>
+            <point key="canvasLocation" x="1575" y="815"/>
         </scene>
     </scenes>
 </document>
