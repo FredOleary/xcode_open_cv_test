@@ -17,6 +17,7 @@ class ViewController: UIViewController {
     var showingMenu = false;
     
     var openCVWrapper:OpenCVWrapper = OpenCVWrapper();
+    let testAccelerate = TestAccelerate()
     
     @IBOutlet weak var LeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var heartRateLabel: UILabel!
@@ -28,8 +29,6 @@ class ViewController: UIViewController {
     
     @IBAction func sendFred(_ sender: Any) {
         labelFred.text = openCVWrapper.openCVVersionString()
-//        let chat = UIImage(named: "seama-sales-2-mock")
-//        imageFred.image = chat
         imageOpenCV.image = openCVWrapper.loadImage("seama-sales-2-mock");
         imageFred.image = openCVWrapper.loadImage("seama-sales-2-mock");
         buttonFred.setTitle("Yipeee", for: .normal)
@@ -67,6 +66,46 @@ class ViewController: UIViewController {
         }
         showingMenu = !showingMenu
     }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        // Determine what the segue destination is
+        if segue.destination is RawDataViewController
+        {
+            print("Yippee")
+            let rawDataVC = segue.destination as? RawDataViewController
+            rawDataVC?.redAmplitude = testAccelerate.makeSineWave()
+        }
+    }
+    /*
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let rawDataVC = segue.destination as? RawDataViewController,
+            let index = (Int)1
+            else {
+                return
+        }
+        rawDataVC.numbers = [1,2,3]
+    }
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        print("foo")
+        print("Id \(segue.identifier)")
+        guard let rawDataVC = segue.destination as! RawDataViewController
+            print("bar")
+        else{
+            return
+        }
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let detailViewController = segue.destination as? DetailViewController,
+            let index = tableView.indexPathForSelectedRow?.row
+            else {
+                return
+        }
+        detailViewController.contact = contacts[index]
+    }
+ */
 }
 

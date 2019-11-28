@@ -23,6 +23,7 @@
 		539421B62386160300418753 /* OpenCVImageProcessor.mm in Sources */ = {isa = PBXBuildFile; fileRef = 539421B52386160300418753 /* OpenCVImageProcessor.mm */; };
 		539421B8238739D600418753 /* haarcascade_frontalface_default.xml in Resources */ = {isa = PBXBuildFile; fileRef = 539421B7238739D600418753 /* haarcascade_frontalface_default.xml */; };
 		539421F3238DF38100418753 /* RawDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539421F2238DF38100418753 /* RawDataViewController.swift */; };
+		539421F5238E0AF900418753 /* TestAccelerate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539421F4238E0AF800418753 /* TestAccelerate.swift */; };
 		A35D78DBABE38A28AD2BB9CC /* Pods_mac_min2_mac_min2UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA01E641EDD29B8C21ABDB2C /* Pods_mac_min2_mac_min2UITests.framework */; };
 		EC69B56D7385E980B09345F1 /* Pods_mac_min2Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F709D2147BE1E56AD5A46CC /* Pods_mac_min2Tests.framework */; };
 /* End PBXBuildFile section */
@@ -71,6 +72,7 @@
 		539421B52386160300418753 /* OpenCVImageProcessor.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVImageProcessor.mm; sourceTree = "<group>"; };
 		539421B7238739D600418753 /* haarcascade_frontalface_default.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = haarcascade_frontalface_default.xml; sourceTree = "<group>"; };
 		539421F2238DF38100418753 /* RawDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawDataViewController.swift; sourceTree = "<group>"; };
+		539421F4238E0AF800418753 /* TestAccelerate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAccelerate.swift; sourceTree = "<group>"; };
 		544BD4414E69F1954A9BABCA /* Pods-mac_min2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mac_min2.debug.xcconfig"; path = "Target Support Files/Pods-mac_min2/Pods-mac_min2.debug.xcconfig"; sourceTree = "<group>"; };
 		5878B09B8C3FFC5993201EB6 /* Pods-mac_min2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mac_min2.release.xcconfig"; path = "Target Support Files/Pods-mac_min2/Pods-mac_min2.release.xcconfig"; sourceTree = "<group>"; };
 		64BAE201ED0090700006ACCF /* Pods-mac_min2-mac_min2UITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mac_min2-mac_min2UITests.debug.xcconfig"; path = "Target Support Files/Pods-mac_min2-mac_min2UITests/Pods-mac_min2-mac_min2UITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 				5394213F2383599C00418753 /* Assets.xcassets */,
 				539421412383599C00418753 /* LaunchScreen.storyboard */,
 				539421442383599C00418753 /* Info.plist */,
+				539421F4238E0AF800418753 /* TestAccelerate.swift */,
 			);
 			path = mac_min2;
 			sourceTree = "<group>";
@@ -447,6 +450,7 @@
 				539421AE2384CB6E00418753 /* OpenCVCamera.mm in Sources */,
 				539421372383599A00418753 /* AppDelegate.swift in Sources */,
 				5394216B23835A8B00418753 /* OpenCVWrapper.mm in Sources */,
+				539421F5238E0AF900418753 /* TestAccelerate.swift in Sources */,
 				539421B62386160300418753 /* OpenCVImageProcessor.mm in Sources */,
 				539421F3238DF38100418753 /* RawDataViewController.swift in Sources */,
 			);

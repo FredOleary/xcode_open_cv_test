@@ -11,48 +11,53 @@ import Charts
 
 class RawDataViewController: UIViewController {
 
-    var numbers : [Double] = []
+//    var numbers : [Double] = []
+    let testAccelerate = TestAccelerate()
+    var redAmplitude :[Double] = []
+    
     @IBOutlet weak var chtChart: LineChartView!
     
 
-    @IBAction func showChart(_ sender: Any) {
-        print("fuckit")
-        numbers.append(10)
-        numbers.append(20)
-        numbers.append(25)
-        numbers.append(15)
-        numbers.append(13)
-        updateGraph()
-    }
+//    @IBAction func showChart(_ sender: Any) {
+////        numbers = testAccelerate.makeSineWave()
+//        updateGraph()
+//    }
+    
     override func viewDidLoad() {
+        print("========viewDidLoad")
         super.viewDidLoad()
+        updateGraph()
 
         // Do any additional setup after loading the view.
     }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+//        updateGraph()
+        print("========init")
+    }
+    
+//    convenience init() {
+//        self.init()
+//        print("init")
+//    }
+
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
     func updateGraph(){
         var lineChartEntry  = [ChartDataEntry]() //this is the Array that will eventually be displayed on the graph.
         
         
         //here is the for loop
-        for i in 0..<numbers.count {
+        for i in 0..<redAmplitude.count {
 
-            let value = ChartDataEntry(x: Double(i), y: numbers[i]) // here we set the X and Y status in a data chart entry
+            let value = ChartDataEntry(x: Double(i), y: redAmplitude[i]) // here we set the X and Y status in a data chart entry
             lineChartEntry.append(value) // here we add it to the data set
         }
 
         let line1 = LineChartDataSet(entries: lineChartEntry, label: "Number") //Here we convert lineChartEntry to a LineChartDataSet
-        line1.colors = [NSUIColor.blue] //Sets the colour to blue
+        line1.drawCirclesEnabled = false
+        line1.colors = [NSUIColor.red] 
 
         let data = LineChartData() //This is the object that will be added to the chart
         data.addDataSet(line1) //Adds the line to the dataSet
