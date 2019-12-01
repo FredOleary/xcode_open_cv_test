@@ -167,21 +167,51 @@
             </objects>
             <point key="canvasLocation" x="150.72463768115944" y="814.95535714285711"/>
         </scene>
-        <!--View Controller-->
+        <!--Data View Controller-->
         <scene sceneID="UAB-SI-lKm">
             <objects>
-                <viewController id="lki-2F-dOP" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="g4r-pl-FmY">
+                <viewController id="lki-2F-dOP" customClass="FFTDataViewController" customModule="mac_min2" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="u7n-WA-MrL">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <viewLayoutGuide key="safeArea" id="3ZT-S8-5PY"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LTQ-pU-9XB" customClass="BarChartView" customModule="Charts">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="LTQ-pU-9XB" firstAttribute="leading" secondItem="FVn-N8-Kcq" secondAttribute="leading" id="9Fp-g0-Xne"/>
+                            <constraint firstItem="LTQ-pU-9XB" firstAttribute="top" secondItem="FVn-N8-Kcq" secondAttribute="top" id="HlR-AF-x1o"/>
+                            <constraint firstItem="FVn-N8-Kcq" firstAttribute="bottom" secondItem="LTQ-pU-9XB" secondAttribute="bottom" id="erh-hI-vCT"/>
+                            <constraint firstItem="FVn-N8-Kcq" firstAttribute="trailing" secondItem="LTQ-pU-9XB" secondAttribute="trailing" id="g6u-NC-m21"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="FVn-N8-Kcq"/>
                     </view>
                     <navigationItem key="navigationItem" id="bC4-Yw-ujZ"/>
+                    <connections>
+                        <outlet property="barChart" destination="LTQ-pU-9XB" id="kX4-SY-35U"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kT4-cg-G2k" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1575" y="815"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="IG8-UI-xUw">
+            <objects>
+                <viewController id="4s3-b0-dZc" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="xko-GW-Vn7">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="qhh-ka-KrD"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vnH-rs-of7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1574" y="1460"/>
         </scene>
     </scenes>
     <resources>

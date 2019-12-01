@@ -71,10 +71,21 @@ class ViewController: UIViewController {
         // Determine what the segue destination is
         if segue.destination is RawDataViewController
         {
-            print("Yippee")
             let rawDataVC = segue.destination as? RawDataViewController
-            rawDataVC?.redAmplitude = testAccelerate.makeSineWave()
+            rawDataVC?.redAmplitude = testAccelerate.getSampleGreen()
+            rawDataVC?.timeSeries = testAccelerate.makeTimeSeries()
+            print("rawDataVC")
+
         }
+        if segue.destination is FFTDataViewController
+        {
+            let FFTDataVC = segue.destination as? FFTDataViewController
+            FFTDataVC?.redAmplitude = testAccelerate.getSampleGreen()
+            FFTDataVC?.timeSeries = testAccelerate.makeTimeSeries()
+            print("FFTDataVC")
+
+        }
+
     }
     /*
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

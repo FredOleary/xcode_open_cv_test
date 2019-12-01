@@ -11,9 +11,8 @@ import Charts
 
 class RawDataViewController: UIViewController {
 
-//    var numbers : [Double] = []
-    let testAccelerate = TestAccelerate()
     var redAmplitude :[Double] = []
+    var timeSeries :[Double] = []
     
     @IBOutlet weak var chtChart: LineChartView!
     
@@ -24,7 +23,7 @@ class RawDataViewController: UIViewController {
 //    }
     
     override func viewDidLoad() {
-        print("========viewDidLoad")
+        print("RawDataViewController - viewDidLoad")
         super.viewDidLoad()
         updateGraph()
 
@@ -33,8 +32,7 @@ class RawDataViewController: UIViewController {
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-//        updateGraph()
-        print("========init")
+        print("RawDataViewController - init")
     }
     
 //    convenience init() {
@@ -51,7 +49,7 @@ class RawDataViewController: UIViewController {
         //here is the for loop
         for i in 0..<redAmplitude.count {
 
-            let value = ChartDataEntry(x: Double(i), y: redAmplitude[i]) // here we set the X and Y status in a data chart entry
+            let value = ChartDataEntry(x: timeSeries[i], y: redAmplitude[i]) // here we set the X and Y status in a data chart entry
             lineChartEntry.append(value) // here we add it to the data set
         }
 
