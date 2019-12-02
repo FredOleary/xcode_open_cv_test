@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		2691F80926CF7459F8FD6780 /* Pods_mac_min2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6652C5EC6E4714A36E5C550D /* Pods_mac_min2.framework */; };
 		534EC9D723934B2C0053F924 /* FFTDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534EC9D623934B2C0053F924 /* FFTDataViewController.swift */; };
+		534EC9D923935C4A0053F924 /* fft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534EC9D823935C4A0053F924 /* fft.swift */; };
+		534EC9DB23946BFC0053F924 /* RGBSampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534EC9DA23946BFC0053F924 /* RGBSampleData.swift */; };
 		539421372383599A00418753 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539421362383599A00418753 /* AppDelegate.swift */; };
 		5394213B2383599A00418753 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5394213A2383599A00418753 /* ViewController.swift */; };
 		5394213E2383599A00418753 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5394213C2383599A00418753 /* Main.storyboard */; };
@@ -48,6 +50,8 @@
 
 /* Begin PBXFileReference section */
 		534EC9D623934B2C0053F924 /* FFTDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FFTDataViewController.swift; sourceTree = "<group>"; };
+		534EC9D823935C4A0053F924 /* fft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fft.swift; sourceTree = "<group>"; };
+		534EC9DA23946BFC0053F924 /* RGBSampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RGBSampleData.swift; sourceTree = "<group>"; };
 		539421332383599A00418753 /* mac_min2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mac_min2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		539421362383599A00418753 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5394213A2383599A00418753 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -174,6 +178,8 @@
 				539421412383599C00418753 /* LaunchScreen.storyboard */,
 				539421442383599C00418753 /* Info.plist */,
 				539421F4238E0AF800418753 /* TestAccelerate.swift */,
+				534EC9D823935C4A0053F924 /* fft.swift */,
+				534EC9DA23946BFC0053F924 /* RGBSampleData.swift */,
 			);
 			path = mac_min2;
 			sourceTree = "<group>";
@@ -452,11 +458,13 @@
 				5394213B2383599A00418753 /* ViewController.swift in Sources */,
 				539421AE2384CB6E00418753 /* OpenCVCamera.mm in Sources */,
 				539421372383599A00418753 /* AppDelegate.swift in Sources */,
+				534EC9D923935C4A0053F924 /* fft.swift in Sources */,
 				5394216B23835A8B00418753 /* OpenCVWrapper.mm in Sources */,
 				539421F5238E0AF900418753 /* TestAccelerate.swift in Sources */,
 				539421B62386160300418753 /* OpenCVImageProcessor.mm in Sources */,
 				539421F3238DF38100418753 /* RawDataViewController.swift in Sources */,
 				534EC9D723934B2C0053F924 /* FFTDataViewController.swift in Sources */,
+				534EC9DB23946BFC0053F924 /* RGBSampleData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

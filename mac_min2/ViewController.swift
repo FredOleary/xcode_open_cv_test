@@ -68,11 +68,15 @@ class ViewController: UIViewController {
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
+        let rgbSampleData = RGBSampleData()
+        let (hrSampleRed, hrSampleGreen, hrSampleBlue) = rgbSampleData.getRGBData()
         // Determine what the segue destination is
         if segue.destination is RawDataViewController
         {
             let rawDataVC = segue.destination as? RawDataViewController
-            rawDataVC?.redAmplitude = testAccelerate.getSampleGreen()
+            rawDataVC?.redAmplitude = hrSampleRed
+            rawDataVC?.greenAmplitude = hrSampleGreen
+            rawDataVC?.blueAmplitude = hrSampleBlue
             rawDataVC?.timeSeries = testAccelerate.makeTimeSeries()
             print("rawDataVC")
 
@@ -80,8 +84,18 @@ class ViewController: UIViewController {
         if segue.destination is FFTDataViewController
         {
             let FFTDataVC = segue.destination as? FFTDataViewController
-            FFTDataVC?.redAmplitude = testAccelerate.getSampleGreen()
-            FFTDataVC?.timeSeries = testAccelerate.makeTimeSeries()
+            let fft = FFT()
+            var (fftSpectrum, timeSeries) = fft.calculate( hrSampleRed, fps: 30.0)
+            FFTDataVC?.redAmplitude = fftSpectrum
+            
+            (fftSpectrum, timeSeries) = fft.calculate( hrSampleGreen, fps: 30.0)
+            FFTDataVC?.greenAmplitude = fftSpectrum
+            
+            (fftSpectrum, timeSeries) = fft.calculate( hrSampleBlue, fps: 30.0)
+            FFTDataVC?.blueAmplitude = fftSpectrum
+            
+            FFTDataVC?.timeSeries = timeSeries
+            
             print("FFTDataVC")
 
         }
