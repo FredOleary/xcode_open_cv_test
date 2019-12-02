@@ -85,15 +85,18 @@ class ViewController: UIViewController {
         {
             let FFTDataVC = segue.destination as? FFTDataViewController
             let fft = FFT()
-            var (fftSpectrum, timeSeries) = fft.calculate( hrSampleRed, fps: 30.0)
+            var (fftSpectrum, timeSeries, maxFrequency) = fft.calculate( hrSampleRed, fps: 30.0)
             FFTDataVC?.redAmplitude = fftSpectrum
+            FFTDataVC?.redMaxFrequency = maxFrequency
             
-            (fftSpectrum, timeSeries) = fft.calculate( hrSampleGreen, fps: 30.0)
+            (fftSpectrum, timeSeries, maxFrequency) = fft.calculate( hrSampleGreen, fps: 30.0)
             FFTDataVC?.greenAmplitude = fftSpectrum
-            
-            (fftSpectrum, timeSeries) = fft.calculate( hrSampleBlue, fps: 30.0)
+            FFTDataVC?.greenMaxFrequency = maxFrequency
+
+            (fftSpectrum, timeSeries, maxFrequency) = fft.calculate( hrSampleBlue, fps: 30.0)
             FFTDataVC?.blueAmplitude = fftSpectrum
-            
+            FFTDataVC?.blueMaxFrequency = maxFrequency
+
             FFTDataVC?.timeSeries = timeSeries
             
             print("FFTDataVC")

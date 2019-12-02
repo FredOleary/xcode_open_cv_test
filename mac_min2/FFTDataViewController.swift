@@ -15,6 +15,9 @@ class FFTDataViewController: UIViewController {
     var greenAmplitude :[Double] = []
     var blueAmplitude :[Double] = []
     var timeSeries :[Double] = []
+    var redMaxFrequency :Double = 0
+    var greenMaxFrequency :Double = 0
+    var blueMaxFrequency :Double = 0
 
     @IBOutlet weak var barChart: BarChartView!
     
@@ -38,32 +41,24 @@ class FFTDataViewController: UIViewController {
     func updateGraph(){
         
         let data = BarChartData()
-        addBar(data, redAmplitude, timeSeries, color:[NSUIColor.red], "Red")
-        addBar(data, greenAmplitude, timeSeries, color:[NSUIColor.green], "Green")
-        addBar(data, blueAmplitude, timeSeries, color:[NSUIColor.blue], "Blue")
+        let groupCount = 3
+        let redFreq = NSString(format: "Red BPM %.2f", (redMaxFrequency * 60))
+        let greenFreq = NSString(format: "Green BPM %.2f", (greenMaxFrequency * 60))
+        let blueFreq = NSString(format: "Blue BPM %.2f", (blueMaxFrequency * 60))
+        addBar(data, redAmplitude, timeSeries, color:[NSUIColor.red], redFreq as String)
+        addBar(data, greenAmplitude, timeSeries, color:[NSUIColor.green], greenFreq as String)
+        addBar(data, blueAmplitude, timeSeries, color:[NSUIColor.blue], blueFreq as String)
 
-//        var barChartEntry  = [BarChartDataEntry]() //this is the Array that will eventually be displayed on the graph.
-//
-//
-//        //here is the for loop
-//        for i in 0..<redAmplitude.count {
-//
-//            let value = BarChartDataEntry(x: timeSeries[i], y: redAmplitude[i]) // here we set the X and Y status in a data chart entry
-//            barChartEntry.append(value) // here we add it to the data set
-//        }
-//
-//        let bar1 = BarChartDataSet(entries: barChartEntry, label: "Number")
-//        bar1.colors = [NSUIColor.red]
-//
-//        data.addDataSet(bar1) //Adds the line to the dataSet
         data.barWidth = 0.03
 
-        barChart.xAxis.axisMaximum = 0 + data.groupWidth(groupSpace: 0.02, barSpace: 0.2) * Double(3)
+        barChart.xAxis.axisMaximum = 0 + data.groupWidth(groupSpace: 0.02, barSpace: 0.2) * Double(groupCount+1)
         
         data.groupBars(fromX: 0, groupSpace: 0.02, barSpace: 0.02)
+        data.setValueFont(.systemFont(ofSize: 0, weight: .light))
         
         barChart.data = data //finally - it adds the chart data to the chart and causes an update
         barChart.chartDescription?.text = "My awesome chart" // Here we set the description for the graph
+        barChart.legend.font = .systemFont(ofSize: 18, weight: .light)
     }
     func addBar( _ barChartData:BarChartData, _ yData:[Double], _ xData:[Double], color:[NSUIColor], _ name:String) {
         var barChartEntry  = [BarChartDataEntry]() //this is the Array that will eventually be displayed on the graph.

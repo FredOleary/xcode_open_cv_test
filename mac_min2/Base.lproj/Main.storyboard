@@ -55,13 +55,13 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vWv-9m-yaA">
-                                <rect key="frame" x="0.0" y="88" width="200" height="808"/>
+                                <rect key="frame" x="0.0" y="88" width="220" height="808"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="lMA-gZ-yI7">
-                                        <rect key="frame" x="0.0" y="0.0" width="162" height="60"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="207" height="60"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CLJ-Sb-YDx">
-                                                <rect key="frame" x="0.0" y="0.0" width="162" height="30"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="207" height="30"/>
                                                 <state key="normal" title="Show Raw RGB data">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
@@ -70,8 +70,8 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="56e-c1-PMo">
-                                                <rect key="frame" x="0.0" y="30" width="162" height="30"/>
-                                                <state key="normal" title="Show Filtered RGB data">
+                                                <rect key="frame" x="0.0" y="30" width="207" height="30"/>
+                                                <state key="normal" title="Show  FFT (Filtered) RGB data">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <connections>
@@ -83,7 +83,7 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.071398204451371419" green="0.082966587563067351" blue="0.57065657383419688" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="72V-mN-f8B"/>
+                                    <constraint firstAttribute="width" constant="220" id="72V-mN-f8B"/>
                                     <constraint firstItem="lMA-gZ-yI7" firstAttribute="top" secondItem="vWv-9m-yaA" secondAttribute="top" id="Q3U-yD-kF8"/>
                                     <constraint firstItem="lMA-gZ-yI7" firstAttribute="leading" secondItem="vWv-9m-yaA" secondAttribute="leading" id="zy8-cW-eXu"/>
                                 </constraints>
