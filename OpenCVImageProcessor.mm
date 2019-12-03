@@ -20,6 +20,9 @@
     bool faceDetected;
     cv::Rect faceRect;
     cv::Ptr<cv::Tracker> faceTracker;
+    NSMutableArray *bluePixel;
+    NSMutableArray *greenPixel;
+    NSMutableArray *redPixel;
 }
 
 - (void)processImage:(cv::Mat&)image;
@@ -34,6 +37,7 @@
             cv::Rect2d clipRect =  [[self class] clipRectToImage :trackRect :image];
             cv::Mat tmp = image(clipRect);
             cv::rectangle( image, clipRect, cv::Scalar( 255, 0, 0 ), 2, 1 );
+            [self processImageRect:image :clipRect];
 
         }else{
             NSLog(@"Lost tracking");
@@ -64,6 +68,9 @@
     CFStringGetFileSystemRepresentation( (CFStringRef)faceCascadePath, CASCADE_NAME, CASCADE_NAME_LEN);
     faceDetector.load(CASCADE_NAME);
 
+    bluePixel = [[NSMutableArray alloc] init];
+    greenPixel = [[NSMutableArray alloc] init];
+    redPixel = [[NSMutableArray alloc] init];
     return self;
 }
 
@@ -130,5 +137,34 @@
     cv::Rect2d rectImage(0,0, s.width, s.height );
     cv::Rect2d result = clipRect & rectImage;   // Intersection of the two rectangles
     return result;
+}
+-(void) processImageRect: (cv::Mat&) image :(cv::Rect2d&) rect {
+    uint8_t* pixelPtr = (uint8_t*)image.data;
+    int cn = image.channels();
+//    cv::Scalar_<uint8_t> bgrPixel;
+    uint8_t blue;
+    uint8_t green;
+    uint8_t red;
+    double blueAcc = 0, greenAcc = 0, redAcc = 0;
+
+    for(int i = rect.x; i < (rect.x + rect.width); i++)
+    {
+        for(int j = rect.y; j < (rect.y + rect.height); j++)
+        {
+            blue = pixelPtr[i*image.cols*cn + j*cn + 0]; // B
+            green = pixelPtr[i*image.cols*cn + j*cn + 1]; // G
+            red = pixelPtr[i*image.cols*cn + j*cn + 2]; // R
+            blueAcc += blue;
+            greenAcc += green;
+            redAcc += red;
+        }
+    }
+    blueAcc /= (rect.width*rect.height);
+    greenAcc /= (rect.width*rect.height);
+    redAcc /= (rect.width*rect.height);
+    [bluePixel addObject:[NSNumber numberWithDouble:blueAcc]];
+    [greenPixel addObject:[NSNumber numberWithDouble:greenAcc]];
+    [redPixel addObject:[NSNumber numberWithDouble:redAcc]];
+    NSLog(@"Blue: %f, Green: %f, Red %f", blueAcc, greenAcc, redAcc);
 }
 @end
