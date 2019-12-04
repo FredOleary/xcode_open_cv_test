@@ -25,38 +25,40 @@
     NSMutableArray *greenPixel;
     NSMutableArray *redPixel;
     int framesPerHrReading;
+    bool videoProcessingPaused;
 }
 
 - (void)processImage:(cv::Mat&)image;
 {
-    cv::Mat grayImage;
-    cv::cvtColor(image, grayImage, cv::ColorConversionCodes::COLOR_RGB2GRAY);
-    cv::Rect2d trackRect;
-    
-    if( faceDetected ){
-        bool isfound = faceTracker->update(grayImage,trackRect);
-        if( isfound ){
-            cv::Rect2d clipRect =  [[self class] clipRectToImage :trackRect :image];
-            cv::Mat tmp = image(clipRect);
-            cv::rectangle( image, clipRect, cv::Scalar( 255, 0, 0 ), 2, 1 );
-            frameCount++;
-            [self processImageRect:image :clipRect];
-
-        }else{
-            NSLog(@"Lost tracking");
-            frameCount = 0;
-            faceDetected = false;
-        }
-    }else{
-        faceDetected = [self faceDetect:grayImage];
+    if(! videoProcessingPaused ){
+        cv::Mat grayImage;
+        cv::cvtColor(image, grayImage, cv::ColorConversionCodes::COLOR_RGB2GRAY);
+        cv::Rect2d trackRect;
+        
         if( faceDetected ){
-            frameCount = 0;
-            cv::TrackerKCF::create();
-            faceTracker = cv::TrackerKCF::create();
-            faceTracker->init(grayImage,faceRect);
+            bool isfound = faceTracker->update(grayImage,trackRect);
+            if( isfound ){
+                cv::Rect2d clipRect =  [[self class] clipRectToImage :trackRect :image];
+                cv::Mat tmp = image(clipRect);
+                cv::rectangle( image, clipRect, cv::Scalar( 255, 0, 0 ), 2, 1 );
+                frameCount++;
+                [self processImageRect:image :clipRect];
+
+            }else{
+                NSLog(@"Lost tracking");
+                frameCount = 0;
+                faceDetected = false;
+            }
+        }else{
+            faceDetected = [self faceDetect:grayImage];
+            if( faceDetected ){
+                frameCount = 0;
+                cv::TrackerKCF::create();
+                faceTracker = cv::TrackerKCF::create();
+                faceTracker->init(grayImage,faceRect);
+            }
         }
     }
-    
     UIImage* outImage = [[self class] UIImageFromCVMat:image];
     dispatch_async(dispatch_get_main_queue(), ^{
         self->opencvView.image = outImage;
@@ -67,6 +69,7 @@
 - (id)initWithOpenCVView:(UIImageView*)openCVView :(UILabel*)heartRateLabel :(int)framesPerHRReading :(id<OpenCVImageProcessorDelegate>)del{
     opencvView = openCVView;
     heartrateLabel = heartRateLabel;
+    videoProcessingPaused = false;
     frameCount = 0;
     totalFrameCount = 0;
     faceDetected = false;
@@ -180,6 +183,7 @@
 //    NSLog(@"Blue: %f, Green: %f, Red %f", blueAcc, greenAcc, redAcc);
     if( frameCount %  framesPerHrReading  == 0){
         [self.delegate framesProcessed:framesPerHrReading :redPixel :greenPixel :bluePixel ];
+        videoProcessingPaused = true;
     }
 }
 @end

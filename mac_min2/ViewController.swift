@@ -9,12 +9,11 @@
 import UIKit
 //import OpenCVCamera
 
-class ViewController: UIViewController {
-//    var foo = "ffoo";
-//    var xfoo:String = "xxx";
+class ViewController: UIViewController, OpenCVWrapperDelegate {
 
     var cameraRunning:Bool = false;
     var showingMenu = false;
+    var useConstRGBData = false;
     
     var openCVWrapper:OpenCVWrapper = OpenCVWrapper();
     let testAccelerate = TestAccelerate()
@@ -50,6 +49,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         print("\(openCVWrapper.openCVVersionString())")
+        openCVWrapper.delegate = self
         openCVWrapper.initializeCamera(imageFred, imageOpenCV, heartRateLabel);
         
         LeadingConstraint.constant = -250
@@ -73,11 +73,12 @@ class ViewController: UIViewController {
         // Determine what the segue destination is
         if segue.destination is RawDataViewController
         {
+            let (redPixels, greenPixels, bluePixels, timeSeries) = getRawData()
             let rawDataVC = segue.destination as? RawDataViewController
-            rawDataVC?.redAmplitude = hrSampleRed
-            rawDataVC?.greenAmplitude = hrSampleGreen
-            rawDataVC?.blueAmplitude = hrSampleBlue
-            rawDataVC?.timeSeries = testAccelerate.makeTimeSeries()
+            rawDataVC?.redAmplitude = redPixels
+            rawDataVC?.greenAmplitude = greenPixels
+            rawDataVC?.blueAmplitude = bluePixels
+            rawDataVC?.timeSeries = timeSeries
             print("rawDataVC")
 
         }
@@ -102,7 +103,29 @@ class ViewController: UIViewController {
             print("FFTDataVC")
 
         }
+    }
+    func framesReady() {
+        print("++++++++++++++++++++++++++framesReady")
+    }
+    func getRawData() -> (redPixels: [Double], greenPixels:[Double], bluePixels:[Double], timeSeries:[Double]){
+        if( useConstRGBData ){
+            let rgbSampleData = RGBSampleData()
+            let (hrSampleRed, hrSampleGreen, hrSampleBlue) = rgbSampleData.getRGBData()
+            let timeSeries = testAccelerate.makeTimeSeries()
+            return (hrSampleRed, hrSampleGreen, hrSampleBlue, timeSeries )
+        }else{
+            let timeSeries = testAccelerate.makeTimeSeries()
+            if let redPixels = openCVWrapper.getRedPixels() as NSArray as? [Double]{
+                if let greenPixels = openCVWrapper.getGreenPixels() as NSArray as? [Double]{
+                    if let bluePixels = openCVWrapper.getBluePixels() as NSArray as? [Double]{
+                        return (redPixels, greenPixels, bluePixels, timeSeries)
+                    }
+                }
 
+            }
+            return ([Double](), [Double](), [Double](), [Double]())
+        }
+        
     }
     /*
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

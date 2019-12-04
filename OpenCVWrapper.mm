@@ -34,6 +34,16 @@
     return [NSString stringWithFormat:@"OpenCV Version %s",  CV_VERSION];
 }
 
+- (NSMutableArray*)getRedPixels{
+    return redPixels;
+}
+- (NSMutableArray*)getGreenPixels{
+    return greenPixels;
+}
+- (NSMutableArray*)getBluePixels{
+    return bluePixels;
+}
+
 - (UIImage *)loadImage: (NSString *)imageName{
 
     UIImage* resImage = [UIImage imageNamed:imageName];
@@ -83,6 +93,8 @@
     [redPixelsIn removeAllObjects];
     [greenPixelsIn removeAllObjects];
     [bluePixelsIn removeAllObjects];
+    
+    [self.delegate framesReady ];
 }
     
 @end
