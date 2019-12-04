@@ -8,11 +8,15 @@
 
 #import <Foundation/Foundation.h>
 #import <opencv2/videoio/cap_ios.h>
+#import "OpenCVWrapper.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OpenCVImageProcessor : NSObject<CvVideoCameraDelegate>
-- (id)initWithOpenCVView:(UIImageView*)openCVView :(UILabel*)heartRateLabel;
+
+@property(nonatomic, weak)id <OpenCVImageProcessorDelegate> delegate;
+
+- (id)initWithOpenCVView:(UIImageView*)openCVView :(UILabel*)heartRateLabel :(int)framesPerHRReading  :(id<OpenCVImageProcessorDelegate>)del;
 - (void)processImage:(cv::Mat&)image;
 - (bool)faceDetect: (cv::Mat&) image;
 - (void)processImageRect :(cv::Mat&)image :(cv::Rect2d&) rect;

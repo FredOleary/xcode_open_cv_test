@@ -20,10 +20,13 @@
 @implementation OpenCVWrapper{
     CvVideoCamera* videoCamera;
     OpenCVImageProcessor* imageProcessor;
+    NSMutableArray* redPixels;
+    NSMutableArray* greenPixels;
+    NSMutableArray* bluePixels;
 }
 
 - (id) init {
-    NSLog(@"=================================");
+    NSLog(@"OpenCVWrapper - Init");
     return self;
 }
 
@@ -50,15 +53,13 @@
 }
 - (BOOL)initializeCamera: (UIImageView *)imageView :(UIImageView *)imageOpenCV :(UILabel*)heartRateLabel{
 
-    imageProcessor = [[OpenCVImageProcessor alloc] initWithOpenCVView:imageOpenCV:heartRateLabel];
+    imageProcessor = [[OpenCVImageProcessor alloc] initWithOpenCVView:imageOpenCV:heartRateLabel :256 :self];
     videoCamera = [[CvVideoCamera alloc] initWithParentView:imageView];
     videoCamera.delegate = imageProcessor;
     videoCamera.defaultAVCaptureDevicePosition = AVCaptureDevicePositionFront;
     videoCamera.defaultAVCaptureSessionPreset = AVCaptureSessionPreset352x288;
     videoCamera.defaultAVCaptureVideoOrientation = AVCaptureVideoOrientationPortrait;
     videoCamera.defaultFPS = 30;
-    
-//    [ videoCamera.delegate processImage:imageView ];
     return true;
 }
 
@@ -71,11 +72,17 @@
     [videoCamera stop];
 }
 
-//#pragma mark - Protocol CvVideoCameraDelegate
-//
-//- (void)processImage:(UIImageView *)image;
-//{
-//    NSLog(@"foo---");
-//}
+
+- (void)framesProcessed:(int)frameCount :(NSMutableArray*) redPixelsIn :(NSMutableArray*) greenPixelsIn :(NSMutableArray*) bluePixelsIn
+{
+    NSLog(@"OpenCVWrapper:framesProcessed -%d, frames", frameCount);
+
+    redPixels = [[NSMutableArray alloc] initWithArray:redPixelsIn copyItems:YES];
+    greenPixels = [[NSMutableArray alloc] initWithArray:greenPixelsIn copyItems:YES];
+    bluePixels = [[NSMutableArray alloc] initWithArray:bluePixelsIn copyItems:YES];
+    [redPixelsIn removeAllObjects];
+    [greenPixelsIn removeAllObjects];
+    [bluePixelsIn removeAllObjects];
+}
     
 @end

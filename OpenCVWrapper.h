@@ -34,7 +34,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OpenCVWrapper : NSObject
+@protocol OpenCVImageProcessorDelegate <NSObject>
+ 
+- (void)framesProcessed:(int)frameCount : (NSMutableArray*) redPixels  :(NSMutableArray*) greenPixelsIn :(NSMutableArray*) bluePixelsIn;
+ 
+@end
+
+@interface OpenCVWrapper : NSObject<OpenCVImageProcessorDelegate>
 //CvVideoCamera* videoCamera;
 
 - (id) init;

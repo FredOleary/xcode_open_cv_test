@@ -17,12 +17,14 @@
     UILabel* heartrateLabel;
     cv::CascadeClassifier faceDetector;
     int frameCount;
+    int totalFrameCount;
     bool faceDetected;
     cv::Rect faceRect;
     cv::Ptr<cv::Tracker> faceTracker;
     NSMutableArray *bluePixel;
     NSMutableArray *greenPixel;
     NSMutableArray *redPixel;
+    int framesPerHrReading;
 }
 
 - (void)processImage:(cv::Mat&)image;
@@ -37,31 +39,38 @@
             cv::Rect2d clipRect =  [[self class] clipRectToImage :trackRect :image];
             cv::Mat tmp = image(clipRect);
             cv::rectangle( image, clipRect, cv::Scalar( 255, 0, 0 ), 2, 1 );
+            frameCount++;
             [self processImageRect:image :clipRect];
 
         }else{
             NSLog(@"Lost tracking");
+            frameCount = 0;
             faceDetected = false;
         }
     }else{
         faceDetected = [self faceDetect:grayImage];
-        cv::TrackerKCF::create();
-        faceTracker = cv::TrackerKCF::create();
-        faceTracker->init(grayImage,faceRect);
+        if( faceDetected ){
+            frameCount = 0;
+            cv::TrackerKCF::create();
+            faceTracker = cv::TrackerKCF::create();
+            faceTracker->init(grayImage,faceRect);
+        }
     }
     
     UIImage* outImage = [[self class] UIImageFromCVMat:image];
     dispatch_async(dispatch_get_main_queue(), ^{
         self->opencvView.image = outImage;
-        self->heartrateLabel.text = [NSString stringWithFormat:@"Frame: %d", ++self->frameCount];
+        self->heartrateLabel.text = [NSString stringWithFormat:@"Frame: %d", ++self->totalFrameCount];
     });
 
 }
-- (id)initWithOpenCVView:(UIImageView*)openCVView :(UILabel*)heartRateLabel{
+- (id)initWithOpenCVView:(UIImageView*)openCVView :(UILabel*)heartRateLabel :(int)framesPerHRReading :(id<OpenCVImageProcessorDelegate>)del{
     opencvView = openCVView;
     heartrateLabel = heartRateLabel;
     frameCount = 0;
+    totalFrameCount = 0;
     faceDetected = false;
+    framesPerHrReading =framesPerHRReading;
     NSString *faceCascadePath = [[NSBundle mainBundle] pathForResource:@"haarcascade_frontalface_default"  ofType:@"xml"];
     const CFIndex CASCADE_NAME_LEN = 2048;
     char *CASCADE_NAME = (char *) malloc(CASCADE_NAME_LEN);
@@ -71,6 +80,9 @@
     bluePixel = [[NSMutableArray alloc] init];
     greenPixel = [[NSMutableArray alloc] init];
     redPixel = [[NSMutableArray alloc] init];
+    
+    _delegate = del;
+    
     return self;
 }
 
@@ -165,6 +177,9 @@
     [bluePixel addObject:[NSNumber numberWithDouble:blueAcc]];
     [greenPixel addObject:[NSNumber numberWithDouble:greenAcc]];
     [redPixel addObject:[NSNumber numberWithDouble:redAcc]];
-    NSLog(@"Blue: %f, Green: %f, Red %f", blueAcc, greenAcc, redAcc);
+//    NSLog(@"Blue: %f, Green: %f, Red %f", blueAcc, greenAcc, redAcc);
+    if( frameCount %  framesPerHrReading  == 0){
+        [self.delegate framesProcessed:framesPerHrReading :redPixel :greenPixel :bluePixel ];
+    }
 }
 @end
