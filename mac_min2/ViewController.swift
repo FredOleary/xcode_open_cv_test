@@ -9,9 +9,15 @@
 import UIKit
 //import OpenCVCamera
 
+enum cameraState {
+    case stopped
+    case running
+    case paused
+}
 class ViewController: UIViewController, OpenCVWrapperDelegate {
+    
 
-    var cameraRunning:Bool = false;
+    var cameraRunning = cameraState.stopped;
     var showingMenu = false;
     var useConstRGBData = false;
     
@@ -34,14 +40,18 @@ class ViewController: UIViewController, OpenCVWrapperDelegate {
     }
     
     @IBAction func startVideo(_ sender: Any) {
-        if( !cameraRunning ){
-            cameraRunning = true;
+        if( cameraRunning == cameraState.stopped ){
+            cameraRunning = cameraState.running;
             openCVWrapper.startCamera();
             buttonVideo.setTitle("Stop Video", for: .normal)
-        }else{
-            cameraRunning = false;
+        }else if( cameraRunning == cameraState.running ){
+            cameraRunning = cameraState.stopped;
             openCVWrapper.stopCamera();
             buttonVideo.setTitle("Start Video", for: .normal)
+        }else if( cameraRunning == cameraState.paused ){
+            cameraRunning = cameraState.running;
+            openCVWrapper.resumeCamera();
+            buttonVideo.setTitle("Stop Video", for: .normal)
         }
     }
     
@@ -68,12 +78,11 @@ class ViewController: UIViewController, OpenCVWrapperDelegate {
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
-        let rgbSampleData = RGBSampleData()
-        let (hrSampleRed, hrSampleGreen, hrSampleBlue) = rgbSampleData.getRGBData()
+        let (redPixels, greenPixels, bluePixels, timeSeries) = getRawData()
         // Determine what the segue destination is
+
         if segue.destination is RawDataViewController
         {
-            let (redPixels, greenPixels, bluePixels, timeSeries) = getRawData()
             let rawDataVC = segue.destination as? RawDataViewController
             rawDataVC?.redAmplitude = redPixels
             rawDataVC?.greenAmplitude = greenPixels
@@ -86,15 +95,15 @@ class ViewController: UIViewController, OpenCVWrapperDelegate {
         {
             let FFTDataVC = segue.destination as? FFTDataViewController
             let fft = FFT()
-            var (fftSpectrum, timeSeries, maxFrequency) = fft.calculate( hrSampleRed, fps: 30.0)
+            var (fftSpectrum, timeSeries, maxFrequency) = fft.calculate( redPixels, fps: 30.0)
             FFTDataVC?.redAmplitude = fftSpectrum
             FFTDataVC?.redMaxFrequency = maxFrequency
             
-            (fftSpectrum, timeSeries, maxFrequency) = fft.calculate( hrSampleGreen, fps: 30.0)
+            (fftSpectrum, timeSeries, maxFrequency) = fft.calculate( greenPixels, fps: 30.0)
             FFTDataVC?.greenAmplitude = fftSpectrum
             FFTDataVC?.greenMaxFrequency = maxFrequency
 
-            (fftSpectrum, timeSeries, maxFrequency) = fft.calculate( hrSampleBlue, fps: 30.0)
+            (fftSpectrum, timeSeries, maxFrequency) = fft.calculate( bluePixels, fps: 30.0)
             FFTDataVC?.blueAmplitude = fftSpectrum
             FFTDataVC?.blueMaxFrequency = maxFrequency
 
@@ -104,21 +113,33 @@ class ViewController: UIViewController, OpenCVWrapperDelegate {
 
         }
     }
-    func framesReady() {
-        print("++++++++++++++++++++++++++framesReady")
+//    func framesReady(_ videoProcessingPaused: Any) {
+//        <#code#>
+//    }
+
+    func framesReady(_ videoProcessingPaused: Bool ) {
+        print("ViewController: framesReady videoProcessingPaused: ", videoProcessingPaused)
+        if( videoProcessingPaused){
+            DispatchQueue.main.async {
+                self.buttonVideo.setTitle("Resume Video", for: .normal)
+                self.cameraRunning = cameraState.paused
+            }
+        }
     }
+    
+    
     func getRawData() -> (redPixels: [Double], greenPixels:[Double], bluePixels:[Double], timeSeries:[Double]){
         if( useConstRGBData ){
             let rgbSampleData = RGBSampleData()
             let (hrSampleRed, hrSampleGreen, hrSampleBlue) = rgbSampleData.getRGBData()
             let timeSeries = testAccelerate.makeTimeSeries()
-            return (hrSampleRed, hrSampleGreen, hrSampleBlue, timeSeries )
+            return (normalizePixels(hrSampleRed), normalizePixels(hrSampleGreen), normalizePixels(hrSampleBlue), timeSeries )
         }else{
             let timeSeries = testAccelerate.makeTimeSeries()
             if let redPixels = openCVWrapper.getRedPixels() as NSArray as? [Double]{
                 if let greenPixels = openCVWrapper.getGreenPixels() as NSArray as? [Double]{
                     if let bluePixels = openCVWrapper.getBluePixels() as NSArray as? [Double]{
-                        return (redPixels, greenPixels, bluePixels, timeSeries)
+                        return (normalizePixels(redPixels), normalizePixels(greenPixels), normalizePixels(bluePixels), timeSeries)
                     }
                 }
 
@@ -127,36 +148,17 @@ class ViewController: UIViewController, OpenCVWrapperDelegate {
         }
         
     }
-    /*
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let rawDataVC = segue.destination as? RawDataViewController,
-            let index = (Int)1
-            else {
-                return
+    func normalizePixels( _ pixels:[Double] ) ->[Double]{
+        var xPixels = pixels
+        if(pixels.count > 256){
+            xPixels = pixels.suffix(256)
+
         }
-        rawDataVC.numbers = [1,2,3]
+        let min = xPixels.min()!
+        let range = xPixels.max()! - min
+        return xPixels.map {($0-min)/range}
+
     }
 
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        print("foo")
-        print("Id \(segue.identifier)")
-        guard let rawDataVC = segue.destination as! RawDataViewController
-            print("bar")
-        else{
-            return
-        }
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let detailViewController = segue.destination as? DetailViewController,
-            let index = tableView.indexPathForSelectedRow?.row
-            else {
-                return
-        }
-        detailViewController.contact = contacts[index]
-    }
- */
 }
 

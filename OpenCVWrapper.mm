@@ -23,10 +23,14 @@
     NSMutableArray* redPixels;
     NSMutableArray* greenPixels;
     NSMutableArray* bluePixels;
+    double actualFps;
+    int framesPerHeartRateSample;
 }
 
 - (id) init {
     NSLog(@"OpenCVWrapper - Init");
+    actualFps = 30.0;
+    framesPerHeartRateSample = 400;
     return self;
 }
 
@@ -42,6 +46,9 @@
 }
 - (NSMutableArray*)getBluePixels{
     return bluePixels;
+}
+- (double)getActualFps{
+    return actualFps;
 }
 
 - (UIImage *)loadImage: (NSString *)imageName{
@@ -63,7 +70,7 @@
 }
 - (BOOL)initializeCamera: (UIImageView *)imageView :(UIImageView *)imageOpenCV :(UILabel*)heartRateLabel{
 
-    imageProcessor = [[OpenCVImageProcessor alloc] initWithOpenCVView:imageOpenCV:heartRateLabel :256 :self];
+    imageProcessor = [[OpenCVImageProcessor alloc] initWithOpenCVView:imageOpenCV:heartRateLabel :framesPerHeartRateSample :self];
     videoCamera = [[CvVideoCamera alloc] initWithParentView:imageView];
     videoCamera.delegate = imageProcessor;
     videoCamera.defaultAVCaptureDevicePosition = AVCaptureDevicePositionFront;
@@ -81,12 +88,16 @@
     NSLog(@"Video Stopped---");
     [videoCamera stop];
 }
+- (void) resumeCamera{
+    NSLog(@"Video Resumed---");
+    [imageProcessor resume];
+}
 
 
-- (void)framesProcessed:(int)frameCount :(NSMutableArray*) redPixelsIn :(NSMutableArray*) greenPixelsIn :(NSMutableArray*) bluePixelsIn
+- (void)framesProcessed:(int)frameCount :(NSMutableArray*) redPixelsIn :(NSMutableArray*) greenPixelsIn :(NSMutableArray*) bluePixelsIn :(double)fps
 {
-    NSLog(@"OpenCVWrapper:framesProcessed -%d, frames", frameCount);
-
+    NSLog(@"OpenCVWrapper:framesProcessed -%d, frames. FPS %f", frameCount, fps);
+    actualFps = fps;
     redPixels = [[NSMutableArray alloc] initWithArray:redPixelsIn copyItems:YES];
     greenPixels = [[NSMutableArray alloc] initWithArray:greenPixelsIn copyItems:YES];
     bluePixels = [[NSMutableArray alloc] initWithArray:bluePixelsIn copyItems:YES];
@@ -94,7 +105,7 @@
     [greenPixelsIn removeAllObjects];
     [bluePixelsIn removeAllObjects];
     
-    [self.delegate framesReady ];
+    [self.delegate framesReady:imageProcessor.videoProcessingPaused ];
 }
     
 @end

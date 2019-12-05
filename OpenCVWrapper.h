@@ -35,11 +35,16 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol OpenCVWrapperDelegate <NSObject>
-- (void)framesReady;
+- (void)framesReady:(bool)videoProcessingPaused;
 @end
 
 @protocol OpenCVImageProcessorDelegate <NSObject>
-- (void)framesProcessed:(int)frameCount : (NSMutableArray*) redPixels  :(NSMutableArray*) greenPixelsIn :(NSMutableArray*) bluePixelsIn;
+- (void)framesProcessed:(int)frameCount
+                       :(NSMutableArray*) redPixels
+                       :(NSMutableArray*) greenPixelsIn
+                       :(NSMutableArray*) bluePixelsIn
+                       :(double)fps;
+                        
 @end
 
 @interface OpenCVWrapper : NSObject<OpenCVImageProcessorDelegate>
@@ -55,10 +60,12 @@ NS_ASSUME_NONNULL_BEGIN
                         : (UILabel*)heartRateLabel;
 - (void) startCamera;
 - (void) stopCamera;
+- (void) resumeCamera;
 
 - (NSMutableArray*)getRedPixels;
 - (NSMutableArray*)getGreenPixels;
 - (NSMutableArray*)getBluePixels;
+- (double)getActualFps;
 
 
 @end

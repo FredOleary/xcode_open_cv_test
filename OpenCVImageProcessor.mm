@@ -11,6 +11,7 @@
 #import <opencv2/imgcodecs/ios.h>
 #import <opencv2/tracking.hpp>
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
 
 @implementation OpenCVImageProcessor{
     UIImageView* opencvView;
@@ -25,12 +26,13 @@
     NSMutableArray *greenPixel;
     NSMutableArray *redPixel;
     int framesPerHrReading;
-    bool videoProcessingPaused;
+//    bool videoProcessingPaused;
+    CFTimeInterval startTime;
 }
 
 - (void)processImage:(cv::Mat&)image;
 {
-    if(! videoProcessingPaused ){
+    if(! self.videoProcessingPaused ){
         cv::Mat grayImage;
         cv::cvtColor(image, grayImage, cv::ColorConversionCodes::COLOR_RGB2GRAY);
         cv::Rect2d trackRect;
@@ -56,20 +58,20 @@
                 cv::TrackerKCF::create();
                 faceTracker = cv::TrackerKCF::create();
                 faceTracker->init(grayImage,faceRect);
+                startTime = CACurrentMediaTime();
             }
         }
+        UIImage* outImage = [[self class] UIImageFromCVMat:image];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self->opencvView.image = outImage;
+            self->heartrateLabel.text = [NSString stringWithFormat:@"Frame: %d", ++self->totalFrameCount];
+        });
     }
-    UIImage* outImage = [[self class] UIImageFromCVMat:image];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self->opencvView.image = outImage;
-        self->heartrateLabel.text = [NSString stringWithFormat:@"Frame: %d", ++self->totalFrameCount];
-    });
-
 }
 - (id)initWithOpenCVView:(UIImageView*)openCVView :(UILabel*)heartRateLabel :(int)framesPerHRReading :(id<OpenCVImageProcessorDelegate>)del{
     opencvView = openCVView;
     heartrateLabel = heartRateLabel;
-    videoProcessingPaused = false;
+    self.videoProcessingPaused = false;
     frameCount = 0;
     totalFrameCount = 0;
     faceDetected = false;
@@ -89,6 +91,13 @@
     return self;
 }
 
+- (void)resume{
+    NSLog(@"Video resumed");
+    faceDetected = false;
+    frameCount = 0;
+    self.videoProcessingPaused = false;
+}
+
 - (bool) faceDetect: (cv::Mat&) image {
     std::vector<cv::Rect> faceRects;
     double scalingFactor = 1.1;
@@ -100,6 +109,10 @@
                                   cv::Size(30, 30) );
     if( faceRects.size() > 0 ){
         faceRect = faceRects[0];
+        // Take the top 20% and middle 60% of the face rectangle
+        faceRect.height = (int)((double)faceRect.height/5.0);
+        faceRect.x = faceRect.x + (int)((double)faceRect.width/5.0);
+        faceRect.width = (int)(((double)faceRect.width *3.0)/5.0);
         NSLog(@"Face found");
         return true;
     }else{
@@ -182,8 +195,10 @@
     [redPixel addObject:[NSNumber numberWithDouble:redAcc]];
 //    NSLog(@"Blue: %f, Green: %f, Red %f", blueAcc, greenAcc, redAcc);
     if( frameCount %  framesPerHrReading  == 0){
-        [self.delegate framesProcessed:framesPerHrReading :redPixel :greenPixel :bluePixel ];
-        videoProcessingPaused = true;
+        self.videoProcessingPaused = true;
+        CFTimeInterval elapsedTime = CACurrentMediaTime() - startTime;
+        double fps = (double)framesPerHrReading/elapsedTime;
+        [self.delegate framesProcessed:framesPerHrReading :redPixel :greenPixel :bluePixel :fps ];
     }
 }
 @end
