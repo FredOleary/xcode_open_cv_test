@@ -94,22 +94,24 @@ class ViewController: UIViewController, OpenCVWrapperDelegate {
         if segue.destination is FFTDataViewController
         {
             let FFTDataVC = segue.destination as? FFTDataViewController
-            let fft = FFT()
-            var (fftSpectrum, timeSeries, maxFrequency) = fft.calculate( redPixels, fps: 30.0)
-            FFTDataVC?.redAmplitude = fftSpectrum
-            FFTDataVC?.redMaxFrequency = maxFrequency
-            
-            (fftSpectrum, timeSeries, maxFrequency) = fft.calculate( greenPixels, fps: 30.0)
-            FFTDataVC?.greenAmplitude = fftSpectrum
-            FFTDataVC?.greenMaxFrequency = maxFrequency
+            if( redPixels.count > 0){
+                let fft = FFT()
+                var (fftSpectrum, timeSeries, maxFrequency) = fft.calculate( redPixels, fps: 30.0)
+                FFTDataVC?.redAmplitude = fftSpectrum
+                FFTDataVC?.redMaxFrequency = maxFrequency
+                
+                (fftSpectrum, timeSeries, maxFrequency) = fft.calculate( greenPixels, fps: 30.0)
+                FFTDataVC?.greenAmplitude = fftSpectrum
+                FFTDataVC?.greenMaxFrequency = maxFrequency
 
-            (fftSpectrum, timeSeries, maxFrequency) = fft.calculate( bluePixels, fps: 30.0)
-            FFTDataVC?.blueAmplitude = fftSpectrum
-            FFTDataVC?.blueMaxFrequency = maxFrequency
+                (fftSpectrum, timeSeries, maxFrequency) = fft.calculate( bluePixels, fps: 30.0)
+                FFTDataVC?.blueAmplitude = fftSpectrum
+                FFTDataVC?.blueMaxFrequency = maxFrequency
 
-            FFTDataVC?.timeSeries = timeSeries
-            
-            print("FFTDataVC")
+                FFTDataVC?.timeSeries = timeSeries
+                
+                print("FFTDataVC")
+            }
 
         }
     }
@@ -154,9 +156,13 @@ class ViewController: UIViewController, OpenCVWrapperDelegate {
             xPixels = pixels.suffix(256)
 
         }
-        let min = xPixels.min()!
-        let range = xPixels.max()! - min
-        return xPixels.map {($0-min)/range}
+        if(pixels.count > 0){
+            let min = xPixels.min()!
+            let range = xPixels.max()! - min
+            return xPixels.map {($0-min)/range}
+        }else{
+            return pixels
+        }
 
     }
 
