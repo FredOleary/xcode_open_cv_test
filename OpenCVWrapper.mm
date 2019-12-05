@@ -20,15 +20,35 @@
 @implementation OpenCVWrapper{
     CvVideoCamera* videoCamera;
     OpenCVImageProcessor* imageProcessor;
+    NSMutableArray* redPixels;
+    NSMutableArray* greenPixels;
+    NSMutableArray* bluePixels;
+    double actualFps;
+    int framesPerHeartRateSample;
 }
 
 - (id) init {
-    NSLog(@"=================================");
+    NSLog(@"OpenCVWrapper - Init");
+    actualFps = 30.0;
+    framesPerHeartRateSample = 400;
     return self;
 }
 
 - (NSString *)openCVVersionString {
     return [NSString stringWithFormat:@"OpenCV Version %s",  CV_VERSION];
+}
+
+- (NSMutableArray*)getRedPixels{
+    return redPixels;
+}
+- (NSMutableArray*)getGreenPixels{
+    return greenPixels;
+}
+- (NSMutableArray*)getBluePixels{
+    return bluePixels;
+}
+- (double)getActualFps{
+    return actualFps;
 }
 
 - (UIImage *)loadImage: (NSString *)imageName{
@@ -50,15 +70,13 @@
 }
 - (BOOL)initializeCamera: (UIImageView *)imageView :(UIImageView *)imageOpenCV :(UILabel*)heartRateLabel{
 
-    imageProcessor = [[OpenCVImageProcessor alloc] initWithOpenCVView:imageOpenCV:heartRateLabel];
+    imageProcessor = [[OpenCVImageProcessor alloc] initWithOpenCVView:imageOpenCV:heartRateLabel :framesPerHeartRateSample :self];
     videoCamera = [[CvVideoCamera alloc] initWithParentView:imageView];
     videoCamera.delegate = imageProcessor;
     videoCamera.defaultAVCaptureDevicePosition = AVCaptureDevicePositionFront;
     videoCamera.defaultAVCaptureSessionPreset = AVCaptureSessionPreset352x288;
     videoCamera.defaultAVCaptureVideoOrientation = AVCaptureVideoOrientationPortrait;
     videoCamera.defaultFPS = 30;
-    
-//    [ videoCamera.delegate processImage:imageView ];
     return true;
 }
 
@@ -70,12 +88,24 @@
     NSLog(@"Video Stopped---");
     [videoCamera stop];
 }
+- (void) resumeCamera{
+    NSLog(@"Video Resumed---");
+    [imageProcessor resume];
+}
 
-//#pragma mark - Protocol CvVideoCameraDelegate
-//
-//- (void)processImage:(UIImageView *)image;
-//{
-//    NSLog(@"foo---");
-//}
+
+- (void)framesProcessed:(int)frameCount :(NSMutableArray*) redPixelsIn :(NSMutableArray*) greenPixelsIn :(NSMutableArray*) bluePixelsIn :(double)fps
+{
+    NSLog(@"OpenCVWrapper:framesProcessed -%d, frames. FPS %f", frameCount, fps);
+    actualFps = fps;
+    redPixels = [[NSMutableArray alloc] initWithArray:redPixelsIn copyItems:YES];
+    greenPixels = [[NSMutableArray alloc] initWithArray:greenPixelsIn copyItems:YES];
+    bluePixels = [[NSMutableArray alloc] initWithArray:bluePixelsIn copyItems:YES];
+    [redPixelsIn removeAllObjects];
+    [greenPixelsIn removeAllObjects];
+    [bluePixelsIn removeAllObjects];
+    
+    [self.delegate framesReady:imageProcessor.videoProcessingPaused ];
+}
     
 @end

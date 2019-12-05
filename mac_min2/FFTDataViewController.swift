@@ -24,6 +24,12 @@ class FFTDataViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("FFTDataViewController - viewDidLoad")
+        
+        let marker = BalloonMarker(color: UIColor(white: 180/255, alpha: 1), font: .systemFont(ofSize: 12), textColor: .white, insets: UIEdgeInsets(top: 8, left: 8, bottom: 20, right: 8))
+        marker.chartView = barChart
+        marker.minimumSize = CGSize(width: 80, height: 40)
+        barChart.marker = marker
+
         updateGraph()
         // Do any additional setup after loading the view.
     }
@@ -39,9 +45,14 @@ class FFTDataViewController: UIViewController {
     }
     */
     func updateGraph(){
-        
+        let timeWidth = timeSeries[timeSeries.count-1] - timeSeries[0]; // total X time
+        let groupWidth = timeWidth/Double(timeSeries.count)
+        let groupSpace = groupWidth/4.0
+        let barSpace = groupWidth/8.0
+        let barWidth = groupWidth/8.0
+        // (barSpace + barWidth) * 3 + groupSpace= groupWidth
+
         let data = BarChartData()
-        let groupCount = 3
         let redFreq = NSString(format: "Red BPM %.2f", (redMaxFrequency * 60))
         let greenFreq = NSString(format: "Green BPM %.2f", (greenMaxFrequency * 60))
         let blueFreq = NSString(format: "Blue BPM %.2f", (blueMaxFrequency * 60))
@@ -49,11 +60,13 @@ class FFTDataViewController: UIViewController {
         addBar(data, greenAmplitude, timeSeries, color:[NSUIColor.green], greenFreq as String)
         addBar(data, blueAmplitude, timeSeries, color:[NSUIColor.blue], blueFreq as String)
 
-        data.barWidth = 0.03
-
-        barChart.xAxis.axisMaximum = 0 + data.groupWidth(groupSpace: 0.02, barSpace: 0.2) * Double(groupCount+1)
+        data.barWidth = barWidth
         
-        data.groupBars(fromX: 0, groupSpace: 0.02, barSpace: 0.02)
+
+        barChart.xAxis.axisMinimum = timeSeries[0];
+        barChart.xAxis.axisMaximum = timeSeries[timeSeries.count-1]
+        
+        data.groupBars(fromX: timeSeries[0], groupSpace:groupSpace, barSpace: barSpace)
         data.setValueFont(.systemFont(ofSize: 0, weight: .light))
         
         barChart.data = data //finally - it adds the chart data to the chart and causes an update
