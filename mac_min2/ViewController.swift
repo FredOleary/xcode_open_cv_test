@@ -28,8 +28,9 @@ class ViewController: UIViewController, OpenCVWrapperDelegate {
     var openCVWrapper:OpenCVWrapper = OpenCVWrapper();
     let testAccelerate = TestAccelerate()
     
-    @IBOutlet weak var LeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var heartRateLabel: UILabel!
+    @IBOutlet weak var LeadingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var frameRateLabel: UILabel!
     @IBOutlet weak var buttonVideo: UIButton!
     @IBOutlet weak var labelFred: UILabel!
     @IBOutlet weak var buttonFred: UIButton!
@@ -64,7 +65,7 @@ class ViewController: UIViewController, OpenCVWrapperDelegate {
         // Do any additional setup after loading the view.
         print("\(openCVWrapper.openCVVersionString())")
         openCVWrapper.delegate = self
-        openCVWrapper.initializeCamera(imageFred, imageOpenCV, heartRateLabel);
+        openCVWrapper.initializeCamera(imageFred, imageOpenCV, frameRateLabel);
         
         LeadingConstraint.constant = -250
     }
@@ -140,6 +141,14 @@ class ViewController: UIViewController, OpenCVWrapperDelegate {
             }else{
                 openCVWrapper.resumeCamera();
             }
+            var heartRateStr:String = "Heart Rate: N/A"
+            let hrFrequency = calculateHeartRate()
+            if( hrFrequency > 0){
+                heartRateStr = NSString(format: "Heart Rate %.1f", hrFrequency) as String
+            }
+            DispatchQueue.main.async {
+                self.heartRateLabel.text = heartRateStr
+            }
         }
     }
     
@@ -162,7 +171,16 @@ class ViewController: UIViewController, OpenCVWrapperDelegate {
             }
             return ([Double](), [Double](), [Double](), [Double]())
         }
-        
+    }
+    func calculateHeartRate() -> Double{
+        var hrFrequency:Double = 0.0
+        if let greenPixels = openCVWrapper.getGreenPixels() as NSArray as? [Double]{
+           let fft = FFT()
+           let normalizedGreen =  normalizePixels(greenPixels)
+           (_, _, hrFrequency) = fft.calculate( normalizedGreen, fps: 30.0)
+           
+        }
+        return hrFrequency * 60.0 // Beats per minute
     }
     func normalizePixels( _ pixels:[Double] ) ->[Double]{
         var xPixels = pixels
