@@ -92,7 +92,6 @@
 }
 
 - (void)resume{
-    NSLog(@"Video resumed");
     faceDetected = false;
     frameCount = 0;
     self.videoProcessingPaused = false;

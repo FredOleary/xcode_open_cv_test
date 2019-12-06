@@ -14,6 +14,10 @@ enum cameraState {
     case running
     case paused
 }
+
+struct settingsKeys {
+    static let pauseBetweenSamples = "pauseBetweenSamples"
+}
 class ViewController: UIViewController, OpenCVWrapperDelegate {
     
 
@@ -112,19 +116,29 @@ class ViewController: UIViewController, OpenCVWrapperDelegate {
                 
                 print("FFTDataVC")
             }
-
+        }
+        if segue.destination is SettingsViewController{
+            var pauseBetweenSamples :Bool = false
+            let SettingsVC = segue.destination as! SettingsViewController
+            let defaults = UserDefaults.standard
+            pauseBetweenSamples = defaults.bool(forKey: settingsKeys.pauseBetweenSamples)
+            SettingsVC.pauseBetweenSamples = pauseBetweenSamples
+            
+            print("SettingsVC")
         }
     }
-//    func framesReady(_ videoProcessingPaused: Any) {
-//        <#code#>
-//    }
 
     func framesReady(_ videoProcessingPaused: Bool ) {
         print("ViewController: framesReady videoProcessingPaused: ", videoProcessingPaused)
         if( videoProcessingPaused){
-            DispatchQueue.main.async {
-                self.buttonVideo.setTitle("Resume Video", for: .normal)
-                self.cameraRunning = cameraState.paused
+            let pauseBetweenSamples = UserDefaults.standard.bool(forKey: settingsKeys.pauseBetweenSamples)
+            if( pauseBetweenSamples ){
+                DispatchQueue.main.async {
+                    self.buttonVideo.setTitle("Resume Video", for: .normal)
+                    self.cameraRunning = cameraState.paused
+                }
+            }else{
+                openCVWrapper.resumeCamera();
             }
         }
     }

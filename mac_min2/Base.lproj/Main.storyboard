@@ -67,6 +67,9 @@
                                                 <state key="normal" title="Settings">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
+                                                <connections>
+                                                    <segue destination="dIY-Oh-bb2" kind="show" id="VZd-TB-x2g"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
@@ -119,6 +122,53 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1042.0289855072465" y="91.741071428571431"/>
+        </scene>
+        <!--Settings View Controller-->
+        <scene sceneID="pyt-3I-Pv3">
+            <objects>
+                <viewController id="dIY-Oh-bb2" customClass="SettingsViewController" customModule="mac_min2" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="V4A-gR-fFx">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4bc-Sa-aFg">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <subviews>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tpz-Gv-jZ9">
+                                        <rect key="frame" x="253" y="8" width="49" height="31"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <connections>
+                                            <action selector="clickPauseBetweenSamples:" destination="dIY-Oh-bb2" eventType="valueChanged" id="iou-ln-C2K"/>
+                                        </connections>
+                                    </switch>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Pause between samples" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XmN-aM-VQY">
+                                        <rect key="frame" x="8" y="13" width="185" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="4bc-Sa-aFg" firstAttribute="leading" secondItem="jSJ-RF-s09" secondAttribute="leading" id="FTi-VK-7h0"/>
+                            <constraint firstItem="jSJ-RF-s09" firstAttribute="trailing" secondItem="4bc-Sa-aFg" secondAttribute="trailing" id="IXs-KX-urS"/>
+                            <constraint firstItem="jSJ-RF-s09" firstAttribute="bottom" secondItem="4bc-Sa-aFg" secondAttribute="bottom" id="OMT-El-zdX"/>
+                            <constraint firstItem="4bc-Sa-aFg" firstAttribute="top" secondItem="jSJ-RF-s09" secondAttribute="top" id="oub-Bg-HZb"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="jSJ-RF-s09"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="qmp-dx-xM4"/>
+                    <connections>
+                        <outlet property="switchPauseBetweenSamples" destination="Tpz-Gv-jZ9" id="Eq3-0c-lKb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nId-1p-U1k" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2076.8115942028985" y="-186.16071428571428"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="nIN-I3-6lf">
@@ -200,10 +250,10 @@
             </objects>
             <point key="canvasLocation" x="1575" y="815"/>
         </scene>
-        <!--View Controller-->
+        <!--Settings View Controller-->
         <scene sceneID="IG8-UI-xUw">
             <objects>
-                <viewController id="4s3-b0-dZc" sceneMemberID="viewController">
+                <viewController id="4s3-b0-dZc" customClass="SettingsViewController" customModule="mac_min2" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xko-GW-Vn7">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
