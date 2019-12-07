@@ -90,6 +90,10 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="8Of-P3-M8a">
+                                <rect key="frame" x="150" y="112" width="75" height="2"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </progressView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -124,6 +128,7 @@
                         <outlet property="buttonVideo" destination="6Em-DR-3XU" id="dVb-iG-1Ub"/>
                         <outlet property="frameRateLabel" destination="TkQ-Ft-Jwh" id="Gie-xM-X7k"/>
                         <outlet property="heartRateLabel" destination="nWV-rL-196" id="BNv-c6-UW6"/>
+                        <outlet property="heartRateProgress" destination="8Of-P3-M8a" id="6j4-hk-YY5"/>
                         <outlet property="imageFred" destination="Kn7-tI-QQG" id="zuT-EE-4HZ"/>
                         <outlet property="imageOpenCV" destination="FLH-V1-eaH" id="ZtL-IA-SQ0"/>
                     </connections>

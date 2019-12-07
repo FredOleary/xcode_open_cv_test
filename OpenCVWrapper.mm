@@ -68,9 +68,16 @@
         return outImage;
     }
 }
-- (BOOL)initializeCamera: (UIImageView *)imageView :(UIImageView *)imageOpenCV :(UILabel*)heartRateLabel{
+- (BOOL)initializeCamera :(UIImageView *)imageView
+                         :(UIImageView *)imageOpenCV
+                         :(UILabel*)heartRateLabel
+                         :(UIProgressView*)heartRateProgress{
 
-    imageProcessor = [[OpenCVImageProcessor alloc] initWithOpenCVView:imageOpenCV:heartRateLabel :framesPerHeartRateSample :self];
+    imageProcessor = [[OpenCVImageProcessor alloc] initWithOpenCVView
+                      :imageOpenCV:heartRateLabel
+                      :heartRateProgress
+                      :framesPerHeartRateSample
+                      :self];
     videoCamera = [[CvVideoCamera alloc] initWithParentView:imageView];
     videoCamera.delegate = imageProcessor;
     videoCamera.defaultAVCaptureDevicePosition = AVCaptureDevicePositionFront;

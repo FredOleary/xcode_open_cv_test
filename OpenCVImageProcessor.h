@@ -17,7 +17,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, weak)id <OpenCVImageProcessorDelegate> delegate;
 @property (atomic) bool videoProcessingPaused;
 
-- (id)initWithOpenCVView:(UIImageView*)openCVView :(UILabel*)heartRateLabel :(int)framesPerHRReading  :(id<OpenCVImageProcessorDelegate>)del;
+- (id)initWithOpenCVView:(UIImageView*)openCVView
+                        :(UILabel*)heartRateLabel
+                        :(UIProgressView*)heartRateProgress
+                        :(int)framesPerHRReading
+                        :(id<OpenCVImageProcessorDelegate>)del;
 - (void)processImage:(cv::Mat&)image;
 - (bool)faceDetect: (cv::Mat&) image;
 - (void)processImageRect :(cv::Mat&)image :(cv::Rect2d&) rect;

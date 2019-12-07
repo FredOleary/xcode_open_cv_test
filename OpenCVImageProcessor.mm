@@ -16,6 +16,7 @@
 @implementation OpenCVImageProcessor{
     UIImageView* opencvView;
     UILabel* heartrateLabel;
+    UIProgressView* heartrateProgress;
     cv::CascadeClassifier faceDetector;
     int frameCount;
     int totalFrameCount;
@@ -65,12 +66,20 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             self->opencvView.image = outImage;
             self->heartrateLabel.text = [NSString stringWithFormat:@"Frame: %d", ++self->totalFrameCount];
+            [self->heartrateProgress setProgress:(float)self->frameCount/(float)self->framesPerHrReading];
         });
     }
 }
-- (id)initWithOpenCVView:(UIImageView*)openCVView :(UILabel*)heartRateLabel :(int)framesPerHRReading :(id<OpenCVImageProcessorDelegate>)del{
+//            [self->heartrateProgress setProgress :self->frameCount/self->framesPerHrReading : animated: false ];
+
+- (id)initWithOpenCVView:(UIImageView*)openCVView
+                        :(UILabel*)heartRateLabel
+                        :(UIProgressView*)heartRateProgress
+                        :(int)framesPerHRReading
+                        :(id<OpenCVImageProcessorDelegate>)del{
     opencvView = openCVView;
     heartrateLabel = heartRateLabel;
+    heartrateProgress = heartRateProgress;
     self.videoProcessingPaused = false;
     frameCount = 0;
     totalFrameCount = 0;

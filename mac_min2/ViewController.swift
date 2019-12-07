@@ -20,7 +20,6 @@ struct settingsKeys {
 }
 class ViewController: UIViewController, OpenCVWrapperDelegate {
     
-
     var cameraRunning = cameraState.stopped;
     var showingMenu = false;
     var useConstRGBData = false;
@@ -28,6 +27,7 @@ class ViewController: UIViewController, OpenCVWrapperDelegate {
     var openCVWrapper:OpenCVWrapper = OpenCVWrapper();
     let testAccelerate = TestAccelerate()
     
+    @IBOutlet weak var heartRateProgress: UIProgressView!
     @IBOutlet weak var heartRateLabel: UILabel!
     @IBOutlet weak var LeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var frameRateLabel: UILabel!
@@ -64,8 +64,9 @@ class ViewController: UIViewController, OpenCVWrapperDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         print("\(openCVWrapper.openCVVersionString())")
+        heartRateProgress.setProgress(0, animated: false)
         openCVWrapper.delegate = self
-        openCVWrapper.initializeCamera(imageFred, imageOpenCV, frameRateLabel);
+        openCVWrapper.initializeCamera(imageFred, imageOpenCV, frameRateLabel, heartRateProgress);
         
         LeadingConstraint.constant = -250
     }
