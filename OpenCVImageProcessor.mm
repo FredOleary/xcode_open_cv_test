@@ -29,6 +29,7 @@
     int framesPerHrReading;
 //    bool videoProcessingPaused;
     CFTimeInterval startTime;
+    UIImage* heartIcon;
 }
 
 - (void)processImage:(cv::Mat&)image;
@@ -37,13 +38,20 @@
         cv::Mat grayImage;
         cv::cvtColor(image, grayImage, cv::ColorConversionCodes::COLOR_RGB2GRAY);
         cv::Rect2d trackRect;
+        CGRect iconRect;
+        bool isFound = false;
         
         if( faceDetected ){
-            bool isfound = faceTracker->update(grayImage,trackRect);
-            if( isfound ){
+            isFound = faceTracker->update(grayImage,trackRect);
+            if( isFound ){
                 cv::Rect2d clipRect =  [[self class] clipRectToImage :trackRect :image];
-                cv::Mat tmp = image(clipRect);
-                cv::rectangle( image, clipRect, cv::Scalar( 255, 0, 0 ), 2, 1 );
+//                cv::rectangle( image, clipRect, cv::Scalar( 255, 0, 0 ), 2, 1 );
+                
+                iconRect.origin.x = clipRect.x + clipRect.width/2 - clipRect.height/2;
+                iconRect.origin.y = clipRect.y;
+                iconRect.size.width = clipRect.height;
+                iconRect.size.height = clipRect.height;
+
                 frameCount++;
                 [self processImageRect:image :clipRect];
 
@@ -63,6 +71,12 @@
             }
         }
         UIImage* outImage = [[self class] UIImageFromCVMat:image];
+        // Animate here
+        
+        if( isFound ){
+            outImage = [self animateHeartIcon: iconRect : outImage ];
+        }
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             self->opencvView.image = outImage;
             self->heartrateLabel.text = [NSString stringWithFormat:@"Frame: %d", ++self->totalFrameCount];
@@ -70,7 +84,6 @@
         });
     }
 }
-//            [self->heartrateProgress setProgress :self->frameCount/self->framesPerHrReading : animated: false ];
 
 - (id)initWithOpenCVView:(UIImageView*)openCVView
                         :(UILabel*)heartRateLabel
@@ -96,6 +109,8 @@
     redPixel = [[NSMutableArray alloc] init];
     
     _delegate = del;
+    
+    heartIcon = [UIImage imageNamed:@"Heart-icon"];
     
     return self;
 }
@@ -208,5 +223,18 @@
         double fps = (double)framesPerHrReading/elapsedTime;
         [self.delegate framesProcessed:framesPerHrReading :redPixel :greenPixel :bluePixel :fps ];
     }
+}
+-(UIImage*) animateHeartIcon :(CGRect&) iconRect :(UIImage*) outImage {
+    float animationFactor = (float)iconRect.size.width * 0.15; // Maximum size animation
+    float frameFactor = (float)(frameCount%30);
+    float animationValue = animationFactor / frameFactor; // Fixup. 30 is 30 fps
+    iconRect = CGRectInset( iconRect, animationValue, animationValue );
+    UIGraphicsBeginImageContextWithOptions(outImage.size, NO, 0.0);
+    [outImage drawInRect:CGRectMake(0.0, 0.0, outImage.size.width, outImage.size.height)];
+    [heartIcon drawInRect:iconRect];
+    outImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return outImage;
+
 }
 @end
