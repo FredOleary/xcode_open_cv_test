@@ -9,7 +9,7 @@
 import UIKit
 import Charts
 
-class RawDataViewController: UIViewController {
+class RawDataViewController: UIViewController, rawDataReadyDelegate {
 
     var redAmplitude :[Double] = []
     var greenAmplitude :[Double] = []
@@ -37,7 +37,14 @@ class RawDataViewController: UIViewController {
 //        print("init")
 //    }
 
-    
+    func rawDataReady( _ redPixels:[Double], _ greenPixels:[Double], _ bluePixels:[Double], _ timeSeries:[Double] ) {
+        redAmplitude = redPixels
+        greenAmplitude = greenPixels
+        blueAmplitude = bluePixels
+        self.timeSeries = timeSeries
+        updateGraph()
+
+    }
 
     func updateGraph(){
         let data = LineChartData()

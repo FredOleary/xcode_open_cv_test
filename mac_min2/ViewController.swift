@@ -15,6 +15,10 @@ enum cameraState {
     case paused
 }
 
+protocol rawDataReadyDelegate : AnyObject {
+    func rawDataReady( _ redPixels:[Double], _ greenPixels:[Double], _ bluePixels:[Double], _ timeSeries:[Double] )
+}
+
 struct settingsKeys {
     static let pauseBetweenSamples = "pauseBetweenSamples"
 }
@@ -36,6 +40,8 @@ class ViewController: UIViewController, OpenCVWrapperDelegate {
     @IBOutlet weak var buttonFred: UIButton!
     @IBOutlet weak var imageFred: UIImageView!
     @IBOutlet weak var imageOpenCV: UIImageView!
+    
+    weak var rawDelegate: rawDataReadyDelegate?
     
     @IBAction func sendFred(_ sender: Any) {
         labelFred.text = openCVWrapper.openCVVersionString()
@@ -94,6 +100,7 @@ class ViewController: UIViewController, OpenCVWrapperDelegate {
             rawDataVC?.greenAmplitude = greenPixels
             rawDataVC?.blueAmplitude = bluePixels
             rawDataVC?.timeSeries = timeSeries
+            rawDelegate = rawDataVC
             print("rawDataVC")
 
         }
@@ -147,8 +154,11 @@ class ViewController: UIViewController, OpenCVWrapperDelegate {
             if( hrFrequency > 0){
                 heartRateStr = NSString(format: "Heart Rate %.1f", hrFrequency) as String
             }
+            let (redPixels, greenPixels, bluePixels, timeSeries) = getRawData()
+            
             DispatchQueue.main.async {
                 self.heartRateLabel.text = heartRateStr
+                self.rawDelegate?.rawDataReady( redPixels, greenPixels, bluePixels, timeSeries)
             }
         }
     }
