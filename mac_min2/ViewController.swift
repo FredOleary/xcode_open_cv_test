@@ -15,6 +15,10 @@ enum cameraState {
     case paused
 }
 
+protocol ChartReadyDelegate : AnyObject {
+    func dataReady( )
+}
+
 struct settingsKeys {
     static let pauseBetweenSamples = "pauseBetweenSamples"
 }
@@ -22,9 +26,10 @@ class ViewController: UIViewController, OpenCVWrapperDelegate {
     
     var cameraRunning = cameraState.stopped;
     var showingMenu = false;
-    var useConstRGBData = false;
+    var useConstRGBData = true;
     
-    var openCVWrapper:OpenCVWrapper = OpenCVWrapper();
+    var openCVWrapper:OpenCVWrapper = OpenCVWrapper()
+    var heartRateCalculation:HeartRateCalculation?
     let testAccelerate = TestAccelerate()
     
     @IBOutlet weak var heartRateProgress: UIProgressView!
@@ -37,12 +42,15 @@ class ViewController: UIViewController, OpenCVWrapperDelegate {
     @IBOutlet weak var imageFred: UIImageView!
     @IBOutlet weak var imageOpenCV: UIImageView!
     
-    @IBAction func sendFred(_ sender: Any) {
-        labelFred.text = openCVWrapper.openCVVersionString()
-        imageOpenCV.image = openCVWrapper.loadImage("seama-sales-2-mock");
-        imageFred.image = openCVWrapper.loadImage("seama-sales-2-mock");
-        buttonFred.setTitle("Yipeee", for: .normal)
-    }
+    weak var rawDelegate: ChartReadyDelegate?
+    weak var fftDelegate: ChartReadyDelegate?
+
+//    @IBAction func sendFred(_ sender: Any) {
+//        labelFred.text = openCVWrapper.openCVVersionString()
+//        imageOpenCV.image = openCVWrapper.loadImage("seama-sales-2-mock");
+//        imageFred.image = openCVWrapper.loadImage("seama-sales-2-mock");
+//        buttonFred.setTitle("Yipeee", for: .normal)
+//    }
     
     @IBAction func startVideo(_ sender: Any) {
         if( cameraRunning == cameraState.stopped ){
@@ -64,6 +72,7 @@ class ViewController: UIViewController, OpenCVWrapperDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         print("\(openCVWrapper.openCVVersionString())")
+        heartRateCalculation = HeartRateCalculation(openCVWrapper)
         heartRateProgress.setProgress(0, animated: false)
         openCVWrapper.delegate = self
         openCVWrapper.initializeCamera(imageFred, imageOpenCV, frameRateLabel, heartRateProgress);
@@ -84,40 +93,26 @@ class ViewController: UIViewController, OpenCVWrapperDelegate {
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
-        let (redPixels, greenPixels, bluePixels, timeSeries) = getRawData()
-        // Determine what the segue destination is
+//        if( useConstRGBData ){
+//            heartRateCalculation?.calculateHeartRate()
+//        }
 
         if segue.destination is RawDataViewController
         {
             let rawDataVC = segue.destination as? RawDataViewController
-            rawDataVC?.redAmplitude = redPixels
-            rawDataVC?.greenAmplitude = greenPixels
-            rawDataVC?.blueAmplitude = bluePixels
-            rawDataVC?.timeSeries = timeSeries
+                        
+            rawDataVC!.heartRateData = heartRateCalculation
+//            print( rawDataVC!.heartRateData!.openCVWrapper.openCVVersionString())
+            
+            rawDelegate = rawDataVC
             print("rawDataVC")
 
         }
         if segue.destination is FFTDataViewController
         {
             let FFTDataVC = segue.destination as? FFTDataViewController
-            if( redPixels.count > 0){
-                let fft = FFT()
-                var (fftSpectrum, timeSeries, maxFrequency) = fft.calculate( redPixels, fps: 30.0)
-                FFTDataVC?.redAmplitude = fftSpectrum
-                FFTDataVC?.redMaxFrequency = maxFrequency
-                
-                (fftSpectrum, timeSeries, maxFrequency) = fft.calculate( greenPixels, fps: 30.0)
-                FFTDataVC?.greenAmplitude = fftSpectrum
-                FFTDataVC?.greenMaxFrequency = maxFrequency
-
-                (fftSpectrum, timeSeries, maxFrequency) = fft.calculate( bluePixels, fps: 30.0)
-                FFTDataVC?.blueAmplitude = fftSpectrum
-                FFTDataVC?.blueMaxFrequency = maxFrequency
-
-                FFTDataVC?.timeSeries = timeSeries
-                
-                print("FFTDataVC")
-            }
+            FFTDataVC!.heartRateData = heartRateCalculation
+            fftDelegate = FFTDataVC
         }
         if segue.destination is SettingsViewController{
             var pauseBetweenSamples :Bool = false
@@ -142,62 +137,67 @@ class ViewController: UIViewController, OpenCVWrapperDelegate {
             }else{
                 openCVWrapper.resumeCamera();
             }
+            heartRateCalculation?.calculateHeartRate()
             var heartRateStr:String = "Heart Rate: N/A"
             let hrFrequency = calculateHeartRate()
             if( hrFrequency > 0){
                 heartRateStr = NSString(format: "Heart Rate %.1f", hrFrequency) as String
             }
+            
             DispatchQueue.main.async {
                 self.heartRateLabel.text = heartRateStr
+                self.rawDelegate?.dataReady()
+                self.fftDelegate?.dataReady()
             }
         }
     }
     
     
-    func getRawData() -> (redPixels: [Double], greenPixels:[Double], bluePixels:[Double], timeSeries:[Double]){
-        if( useConstRGBData ){
-            let rgbSampleData = RGBSampleData()
-            let (hrSampleRed, hrSampleGreen, hrSampleBlue) = rgbSampleData.getRGBData()
-            let timeSeries = testAccelerate.makeTimeSeries()
-            return (normalizePixels(hrSampleRed), normalizePixels(hrSampleGreen), normalizePixels(hrSampleBlue), timeSeries )
-        }else{
-            let timeSeries = testAccelerate.makeTimeSeries()
-            if let redPixels = openCVWrapper.getRedPixels() as NSArray as? [Double]{
-                if let greenPixels = openCVWrapper.getGreenPixels() as NSArray as? [Double]{
-                    if let bluePixels = openCVWrapper.getBluePixels() as NSArray as? [Double]{
-                        return (normalizePixels(redPixels), normalizePixels(greenPixels), normalizePixels(bluePixels), timeSeries)
-                    }
-                }
-
-            }
-            return ([Double](), [Double](), [Double](), [Double]())
-        }
-    }
+//    func getRawData() -> (redPixels: [Double], greenPixels:[Double], bluePixels:[Double], timeSeries:[Double]){
+//        if( useConstRGBData ){
+//            let rgbSampleData = RGBSampleData()
+//            let (hrSampleRed, hrSampleGreen, hrSampleBlue) = rgbSampleData.getRGBData()
+//            let timeSeries = testAccelerate.makeTimeSeries()
+//            return (normalizePixels(hrSampleRed), normalizePixels(hrSampleGreen), normalizePixels(hrSampleBlue), timeSeries )
+//        }else{
+//            let timeSeries = testAccelerate.makeTimeSeries()
+//            if let redPixels = openCVWrapper.getRedPixels() as NSArray as? [Double]{
+//                if let greenPixels = openCVWrapper.getGreenPixels() as NSArray as? [Double]{
+//                    if let bluePixels = openCVWrapper.getBluePixels() as NSArray as? [Double]{
+//                        return (normalizePixels(redPixels), normalizePixels(greenPixels), normalizePixels(bluePixels), timeSeries)
+//                    }
+//                }
+//
+//            }
+//            return ([Double](), [Double](), [Double](), [Double]())
+//        }
+//    }
     func calculateHeartRate() -> Double{
-        var hrFrequency:Double = 0.0
-        if let greenPixels = openCVWrapper.getGreenPixels() as NSArray as? [Double]{
-           let fft = FFT()
-           let normalizedGreen =  normalizePixels(greenPixels)
-           (_, _, hrFrequency) = fft.calculate( normalizedGreen, fps: 30.0)
-           
-        }
-        return hrFrequency * 60.0 // Beats per minute
+        return heartRateCalculation!.heartRateFrequency! * 60.0
+//        var hrFrequency:Double = 0.0
+//        if let greenPixels = openCVWrapper.getGreenPixels() as NSArray as? [Double]{
+//           let fft = FFT()
+//           let normalizedGreen =  normalizePixels(greenPixels)
+//           (_, _, hrFrequency) = fft.calculate( normalizedGreen, fps: 30.0)
+//
+//        }
+//        return hrFrequency * 60.0 // Beats per minute
     }
-    func normalizePixels( _ pixels:[Double] ) ->[Double]{
-        var xPixels = pixels
-        if(pixels.count > 256){
-            xPixels = pixels.suffix(256)
-
-        }
-        if(pixels.count > 0){
-            let min = xPixels.min()!
-            let range = xPixels.max()! - min
-            return xPixels.map {($0-min)/range}
-        }else{
-            return pixels
-        }
-
-    }
+//    func normalizePixels( _ pixels:[Double] ) ->[Double]{
+//        var xPixels = pixels
+//        if(pixels.count > 256){
+//            xPixels = pixels.suffix(256)
+//
+//        }
+//        if(pixels.count > 0){
+//            let min = xPixels.min()!
+//            let range = xPixels.max()! - min
+//            return xPixels.map {($0-min)/range}
+//        }else{
+//            return pixels
+//        }
+//
+//    }
 
 }
 

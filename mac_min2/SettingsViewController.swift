@@ -25,5 +25,4 @@ class SettingsViewController: UIViewController {
         pauseBetweenSamples = defaults.bool(forKey: settingsKeys.pauseBetweenSamples)
         switchPauseBetweenSamples.setOn(pauseBetweenSamples, animated: true )
     }
-
 }
