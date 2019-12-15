@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2691F80926CF7459F8FD6780 /* Pods_mac_min2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6652C5EC6E4714A36E5C550D /* Pods_mac_min2.framework */; };
+		533FE05623A439D8009D7D2F /* TemporalFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533FE05523A439D8009D7D2F /* TemporalFilter.swift */; };
 		534EC9D723934B2C0053F924 /* FFTDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534EC9D623934B2C0053F924 /* FFTDataViewController.swift */; };
 		534EC9D923935C4A0053F924 /* fft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534EC9D823935C4A0053F924 /* fft.swift */; };
 		534EC9DB23946BFC0053F924 /* RGBSampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534EC9DA23946BFC0053F924 /* RGBSampleData.swift */; };
@@ -52,6 +53,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		533FE05523A439D8009D7D2F /* TemporalFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemporalFilter.swift; sourceTree = "<group>"; };
 		534EC9D623934B2C0053F924 /* FFTDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FFTDataViewController.swift; sourceTree = "<group>"; };
 		534EC9D823935C4A0053F924 /* fft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fft.swift; sourceTree = "<group>"; };
 		534EC9DA23946BFC0053F924 /* RGBSampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RGBSampleData.swift; sourceTree = "<group>"; };
@@ -189,6 +191,7 @@
 				539421F4238E0AF800418753 /* TestAccelerate.swift */,
 				534EC9D823935C4A0053F924 /* fft.swift */,
 				534EC9DA23946BFC0053F924 /* RGBSampleData.swift */,
+				533FE05523A439D8009D7D2F /* TemporalFilter.swift */,
 			);
 			path = mac_min2;
 			sourceTree = "<group>";
@@ -477,6 +480,7 @@
 				534EC9D723934B2C0053F924 /* FFTDataViewController.swift in Sources */,
 				534EC9DB23946BFC0053F924 /* RGBSampleData.swift in Sources */,
 				53DB4DCF2399D15500E30568 /* SettingsViewController.swift in Sources */,
+				533FE05623A439D8009D7D2F /* TemporalFilter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

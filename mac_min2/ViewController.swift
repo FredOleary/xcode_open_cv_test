@@ -93,9 +93,9 @@ class ViewController: UIViewController, OpenCVWrapperDelegate {
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
-//        if( useConstRGBData ){
-//            heartRateCalculation?.calculateHeartRate()
-//        }
+        if( useConstRGBData ){
+            heartRateCalculation?.calculateHeartRate()
+        }
 
         if segue.destination is RawDataViewController
         {

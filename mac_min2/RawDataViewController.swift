@@ -39,7 +39,7 @@ class RawDataViewController: UIViewController, ChartReadyDelegate {
     func updateGraph(){
         if let timeSeries = heartRateData!.timeSeries {
             let data = LineChartData()
-            if let redData = heartRateData?.normalizedRedAmplitude  {
+            if let redData = heartRateData?.normalizedRedAmplitude  { 
                 addLine(data, redData, timeSeries, color:[NSUIColor.red], "Red")
             }
             if let greenData = heartRateData?.normalizedGreenAmplitude  {

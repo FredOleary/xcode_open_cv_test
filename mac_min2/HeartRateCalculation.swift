@@ -24,6 +24,11 @@ class HeartRateCalculation{
     var normalizedGreenAmplitude: [Double]?
     var normalizedBlueAmplitude: [Double]?
 
+    // Filtered data
+    var filteredRedAmplitude: [Double]?
+    var filteredGreenAmplitude: [Double]?
+    var filteredBlueAmplitude: [Double]?
+
     // FFT data
     var FFTRedAmplitude: [Double]?
     var FFTRedFrequency: [Double]?
@@ -46,10 +51,13 @@ class HeartRateCalculation{
     let testAccelerate = TestAccelerate()
     let fft = FFT()
     let fps = 30.0  // This may need to use calculation!!
-    let useConstRGBData = false;
+    let useConstRGBData = true;
+    
+    var temporalFilter:TemporalFilter?
     
     init( _ openCVWrapper:OpenCVWrapper ){
         self.openCVWrapper = openCVWrapper
+        temporalFilter = TemporalFilter()
     }
     
     func calculateHeartRate(){
@@ -71,7 +79,12 @@ class HeartRateCalculation{
         normalizedRedAmplitude = normalizePixels( rawRedPixels! )
         normalizedGreenAmplitude = normalizePixels( rawGreenPixels! )
         normalizedBlueAmplitude = normalizePixels( rawBluePixels! )
-
+        
+        // TODO Fix up fps/fliterLoRate/filterHiRate
+        filteredRedAmplitude = normalizePixels((temporalFilter?.poleFiler(dataIn: normalizedRedAmplitude!, sampleRate:fps, filterLoRate: 42/60.0, filterHiRate: 150/60.0))!)
+        filteredGreenAmplitude = normalizePixels((temporalFilter?.poleFiler(dataIn: normalizedGreenAmplitude!, sampleRate:fps, filterLoRate: 42/60.0, filterHiRate: 150/60.0))!)
+        filteredBlueAmplitude = normalizePixels((temporalFilter?.poleFiler(dataIn: normalizedBlueAmplitude!, sampleRate:fps, filterLoRate: 42/60.0, filterHiRate: 150/60.0))!)
+        
         (FFTRedAmplitude, FFTRedFrequency, heartRateRedFrequency) = fft.calculate( normalizedRedAmplitude!, fps: fps)
         (FFTGreenAmplitude, FFTGreenFrequency, heartRateGreenFrequency) = fft.calculate( normalizedGreenAmplitude!, fps: fps)
         (FFTBlueAmplitude, FFTBlueFrequency, heartRateBlueFrequency) = fft.calculate( normalizedBlueAmplitude!, fps: fps)
