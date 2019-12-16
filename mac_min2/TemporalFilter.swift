@@ -78,7 +78,7 @@ class TemporalFilter {
         makeBandpassFilterWithFcAndQ(&filter, Fs, Fc, Q);
     }
     
-    func poleFiler( dataIn:[Double], sampleRate:Double, filterLoRate:Double, filterHiRate:Double ) -> [Double]{
+    func bandpassFilter( dataIn:[Double], sampleRate:Double, filterLoRate:Double, filterHiRate:Double ) -> [Double]{
         var filter = [Double](repeating: 0, count: 5)
         let stride = vDSP_Stride(1)
         var filteredFloats = [Double](repeating: 0, count: dataIn.count)
@@ -87,5 +87,29 @@ class TemporalFilter {
         vDSP_deq22D(dataIn, stride, filter, &filteredFloats, stride, vDSP_Length( filteredFloats.count - 2) );
         return filteredFloats
     }
+    func getFilterResponse( fps:Double, filterStart:Double, filterEnd:Double,  startFrequency:Double, endFrequency:Double ) ->([Double], [Double]){
+        func getFilterResponseFreq( _ fps:Double, _ filterStart:Double, _ filterEnd:Double,  _ frequency:Double ) -> Double{
+        //        let testAccelerate = TestAccelerate()
+            let input = TestAccelerate.makeSineWave( frequency )
+            let output = bandpassFilter(dataIn: input, sampleRate: fps, filterLoRate: filterStart, filterHiRate: filterEnd)
+            
+            let outputFloats:[Float] = (0..<output.count).map {
+                return Float( output[$0])
+            }
+            let stride = vDSP_Stride(1)
+            let n = vDSP_Length(outputFloats.count)
+            var rmsValue: Float = .nan
+            vDSP_rmsqv(outputFloats, stride, &rmsValue, n)
+            return Double( rmsValue )
+        }
 
+        let length = Int((endFrequency - startFrequency)/0.1)
+        let response:[Double] = (0..<length).map {
+            getFilterResponseFreq( fps, filterStart, filterEnd, startFrequency +  Double($0) * 0.1 )
+        }
+        let freqs:[Double] = (0..<length).map {
+            startFrequency +  Double($0) * 0.1
+        }
+        return (response, freqs)
+    }
 }

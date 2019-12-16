@@ -81,9 +81,9 @@ class HeartRateCalculation{
         normalizedBlueAmplitude = normalizePixels( rawBluePixels! )
         
         // TODO Fix up fps/fliterLoRate/filterHiRate
-        filteredRedAmplitude = normalizePixels((temporalFilter?.poleFiler(dataIn: normalizedRedAmplitude!, sampleRate:fps, filterLoRate: 42/60.0, filterHiRate: 150/60.0))!)
-        filteredGreenAmplitude = normalizePixels((temporalFilter?.poleFiler(dataIn: normalizedGreenAmplitude!, sampleRate:fps, filterLoRate: 42/60.0, filterHiRate: 150/60.0))!)
-        filteredBlueAmplitude = normalizePixels((temporalFilter?.poleFiler(dataIn: normalizedBlueAmplitude!, sampleRate:fps, filterLoRate: 42/60.0, filterHiRate: 150/60.0))!)
+        filteredRedAmplitude = normalizePixels((temporalFilter?.bandpassFilter(dataIn: normalizedRedAmplitude!, sampleRate:fps, filterLoRate: 42/60.0, filterHiRate: 150/60.0))!)
+        filteredGreenAmplitude = normalizePixels((temporalFilter?.bandpassFilter(dataIn: normalizedGreenAmplitude!, sampleRate:fps, filterLoRate: 42/60.0, filterHiRate: 150/60.0))!)
+        filteredBlueAmplitude = normalizePixels((temporalFilter?.bandpassFilter(dataIn: normalizedBlueAmplitude!, sampleRate:fps, filterLoRate: 42/60.0, filterHiRate: 150/60.0))!)
         
         (FFTRedAmplitude, FFTRedFrequency, heartRateRedFrequency) = fft.calculate( filteredRedAmplitude!, fps: fps)
         (FFTGreenAmplitude, FFTGreenFrequency, heartRateGreenFrequency) = fft.calculate( filteredGreenAmplitude!, fps: fps)
