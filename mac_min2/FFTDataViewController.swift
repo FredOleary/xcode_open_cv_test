@@ -39,7 +39,7 @@ class FFTDataViewController: UIViewController, ChartReadyDelegate {
     }
     
     func updateGraph(){
-        if let timeSeries = heartRateData!.FFTRedFrequency {
+        if let timeSeries = heartRateData?.FFTRedFrequency {
             if( timeSeries.count > 0){
                 let timeWidth = timeSeries[timeSeries.count-1] - timeSeries[0]; // total X time
                 let groupWidth = timeWidth/Double(timeSeries.count)

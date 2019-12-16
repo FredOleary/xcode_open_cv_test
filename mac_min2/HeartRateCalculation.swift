@@ -51,7 +51,7 @@ class HeartRateCalculation{
     let testAccelerate = TestAccelerate()
     let fft = FFT()
     let fps = 30.0  // This may need to use calculation!!
-    let useConstRGBData = true;
+    let useConstRGBData = false;
     
     var temporalFilter:TemporalFilter?
     
@@ -85,9 +85,9 @@ class HeartRateCalculation{
         filteredGreenAmplitude = normalizePixels((temporalFilter?.poleFiler(dataIn: normalizedGreenAmplitude!, sampleRate:fps, filterLoRate: 42/60.0, filterHiRate: 150/60.0))!)
         filteredBlueAmplitude = normalizePixels((temporalFilter?.poleFiler(dataIn: normalizedBlueAmplitude!, sampleRate:fps, filterLoRate: 42/60.0, filterHiRate: 150/60.0))!)
         
-        (FFTRedAmplitude, FFTRedFrequency, heartRateRedFrequency) = fft.calculate( normalizedRedAmplitude!, fps: fps)
-        (FFTGreenAmplitude, FFTGreenFrequency, heartRateGreenFrequency) = fft.calculate( normalizedGreenAmplitude!, fps: fps)
-        (FFTBlueAmplitude, FFTBlueFrequency, heartRateBlueFrequency) = fft.calculate( normalizedBlueAmplitude!, fps: fps)
+        (FFTRedAmplitude, FFTRedFrequency, heartRateRedFrequency) = fft.calculate( filteredRedAmplitude!, fps: fps)
+        (FFTGreenAmplitude, FFTGreenFrequency, heartRateGreenFrequency) = fft.calculate( filteredGreenAmplitude!, fps: fps)
+        (FFTBlueAmplitude, FFTBlueFrequency, heartRateBlueFrequency) = fft.calculate( filteredBlueAmplitude!, fps: fps)
         heartRateFrequency = heartRateGreenFrequency // May need fixup
         
    }

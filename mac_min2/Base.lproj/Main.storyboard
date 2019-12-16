@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="P7c-xr-HDP">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="P7c-xr-HDP">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -50,7 +50,7 @@
                                 <rect key="frame" x="0.0" y="88" width="38" height="808"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="lMA-gZ-yI7">
-                                        <rect key="frame" x="0.0" y="0.0" width="207" height="90"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="207" height="120"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CLJ-Sb-YDx">
                                                 <rect key="frame" x="0.0" y="0.0" width="207" height="30"/>
@@ -61,8 +61,17 @@
                                                     <segue destination="hNp-2X-Hjs" kind="show" identifier="mainToRawDataSegue" id="U8k-Sg-dSs"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="56e-c1-PMo">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yKM-iL-Q1F">
                                                 <rect key="frame" x="0.0" y="30" width="207" height="30"/>
+                                                <state key="normal" title="Show Filtered RGB data">
+                                                    <color key="titleColor" red="0.94089353239999995" green="0.94089353239999995" blue="0.94089353239999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <segue destination="kvc-DG-W5l" kind="show" id="0nA-bw-lPn"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="56e-c1-PMo">
+                                                <rect key="frame" x="0.0" y="60" width="207" height="30"/>
                                                 <state key="normal" title="Show  FFT (Filtered) RGB data">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
@@ -71,7 +80,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k7s-i1-dGb">
-                                                <rect key="frame" x="0.0" y="60" width="207" height="30"/>
+                                                <rect key="frame" x="0.0" y="90" width="207" height="30"/>
                                                 <state key="normal" title="Settings">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
@@ -240,6 +249,37 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EIz-4Z-tUm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="150.72463768115944" y="814.95535714285711"/>
+        </scene>
+        <!--Filtered Data View Controller-->
+        <scene sceneID="Y3H-3J-nvJ">
+            <objects>
+                <viewController id="kvc-DG-W5l" customClass="FilteredDataViewController" customModule="mac_min2" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="CSY-tk-BSB">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HiQ-N6-o77" customClass="LineChartView" customModule="Charts">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="HiQ-N6-o77" firstAttribute="trailing" secondItem="4Nb-fe-dqd" secondAttribute="trailing" id="8Fx-hX-07F"/>
+                            <constraint firstItem="HiQ-N6-o77" firstAttribute="leading" secondItem="4Nb-fe-dqd" secondAttribute="leading" id="Ah6-Xm-OoI"/>
+                            <constraint firstItem="HiQ-N6-o77" firstAttribute="bottom" secondItem="4Nb-fe-dqd" secondAttribute="bottom" id="kdl-y8-gmB"/>
+                            <constraint firstItem="HiQ-N6-o77" firstAttribute="top" secondItem="4Nb-fe-dqd" secondAttribute="top" id="lLK-ag-Tbb"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="4Nb-fe-dqd"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="l3i-Be-UGD"/>
+                    <connections>
+                        <outlet property="lineChart" destination="HiQ-N6-o77" id="JJw-gK-ej0"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jXX-si-WaC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="873.91304347826099" y="825.66964285714278"/>
         </scene>
         <!--Data View Controller-->
         <scene sceneID="UAB-SI-lKm">

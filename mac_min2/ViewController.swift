@@ -26,7 +26,7 @@ class ViewController: UIViewController, OpenCVWrapperDelegate {
     
     var cameraRunning = cameraState.stopped;
     var showingMenu = false;
-    var useConstRGBData = true;
+    var useConstRGBData = false;
     
     var openCVWrapper:OpenCVWrapper = OpenCVWrapper()
     var heartRateCalculation:HeartRateCalculation?
@@ -43,6 +43,7 @@ class ViewController: UIViewController, OpenCVWrapperDelegate {
     @IBOutlet weak var imageOpenCV: UIImageView!
     
     weak var rawDelegate: ChartReadyDelegate?
+    weak var filteredDelegate: ChartReadyDelegate?
     weak var fftDelegate: ChartReadyDelegate?
 
 //    @IBAction func sendFred(_ sender: Any) {
@@ -99,20 +100,21 @@ class ViewController: UIViewController, OpenCVWrapperDelegate {
 
         if segue.destination is RawDataViewController
         {
-            let rawDataVC = segue.destination as? RawDataViewController
-                        
-            rawDataVC!.heartRateData = heartRateCalculation
-//            print( rawDataVC!.heartRateData!.openCVWrapper.openCVVersionString())
-            
-            rawDelegate = rawDataVC
-            print("rawDataVC")
-
+            let dataVC = segue.destination as? RawDataViewController
+            dataVC!.heartRateData = heartRateCalculation
+            rawDelegate = dataVC
+        }
+        if segue.destination is FilteredDataViewController
+        {
+            let dataVC = segue.destination as? FilteredDataViewController
+            dataVC!.heartRateData = heartRateCalculation
+            filteredDelegate = dataVC
         }
         if segue.destination is FFTDataViewController
         {
-            let FFTDataVC = segue.destination as? FFTDataViewController
-            FFTDataVC!.heartRateData = heartRateCalculation
-            fftDelegate = FFTDataVC
+            let dataVC = segue.destination as? FFTDataViewController
+            dataVC!.heartRateData = heartRateCalculation
+            fftDelegate = dataVC
         }
         if segue.destination is SettingsViewController{
             var pauseBetweenSamples :Bool = false
@@ -148,6 +150,7 @@ class ViewController: UIViewController, OpenCVWrapperDelegate {
                 self.heartRateLabel.text = heartRateStr
                 self.rawDelegate?.dataReady()
                 self.fftDelegate?.dataReady()
+                self.filteredDelegate?.dataReady()
             }
         }
     }

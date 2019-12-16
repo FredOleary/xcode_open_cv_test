@@ -28,6 +28,7 @@
 		539421B8238739D600418753 /* haarcascade_frontalface_default.xml in Resources */ = {isa = PBXBuildFile; fileRef = 539421B7238739D600418753 /* haarcascade_frontalface_default.xml */; };
 		539421F3238DF38100418753 /* RawDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539421F2238DF38100418753 /* RawDataViewController.swift */; };
 		539421F5238E0AF900418753 /* TestAccelerate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539421F4238E0AF800418753 /* TestAccelerate.swift */; };
+		53D671D023A6F2BC0002EA42 /* FilteredDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D671CF23A6F2BC0002EA42 /* FilteredDataViewController.swift */; };
 		53DB4DCD239896B100E30568 /* BalloonMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DB4DCC239896B100E30568 /* BalloonMarker.swift */; };
 		53DB4DCF2399D15500E30568 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DB4DCE2399D15500E30568 /* SettingsViewController.swift */; };
 		53DB4E0D23A17E9300E30568 /* HeartRateCalculation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DB4E0C23A17E9200E30568 /* HeartRateCalculation.swift */; };
@@ -84,6 +85,7 @@
 		539421B7238739D600418753 /* haarcascade_frontalface_default.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = haarcascade_frontalface_default.xml; sourceTree = "<group>"; };
 		539421F2238DF38100418753 /* RawDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawDataViewController.swift; sourceTree = "<group>"; };
 		539421F4238E0AF800418753 /* TestAccelerate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAccelerate.swift; sourceTree = "<group>"; };
+		53D671CF23A6F2BC0002EA42 /* FilteredDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredDataViewController.swift; sourceTree = "<group>"; };
 		53DB4DCC239896B100E30568 /* BalloonMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BalloonMarker.swift; sourceTree = "<group>"; };
 		53DB4DCE2399D15500E30568 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		53DB4E0C23A17E9200E30568 /* HeartRateCalculation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateCalculation.swift; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 				5394213A2383599A00418753 /* ViewController.swift */,
 				53DB4E0C23A17E9200E30568 /* HeartRateCalculation.swift */,
 				539421F2238DF38100418753 /* RawDataViewController.swift */,
+				53D671CF23A6F2BC0002EA42 /* FilteredDataViewController.swift */,
 				53DB4DCE2399D15500E30568 /* SettingsViewController.swift */,
 				5394213C2383599A00418753 /* Main.storyboard */,
 				53DB4DCC239896B100E30568 /* BalloonMarker.swift */,
@@ -481,6 +484,7 @@
 				534EC9DB23946BFC0053F924 /* RGBSampleData.swift in Sources */,
 				53DB4DCF2399D15500E30568 /* SettingsViewController.swift in Sources */,
 				533FE05623A439D8009D7D2F /* TemporalFilter.swift in Sources */,
+				53D671D023A6F2BC0002EA42 /* FilteredDataViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
