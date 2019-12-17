@@ -21,7 +21,6 @@
 		53942167238359FB00418753 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53942166238359FB00418753 /* opencv2.framework */; };
 		5394216B23835A8B00418753 /* OpenCVWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5394216A23835A8B00418753 /* OpenCVWrapper.mm */; };
 		539421A92384721500418753 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5394213F2383599C00418753 /* Assets.xcassets */; };
-		539421AE2384CB6E00418753 /* OpenCVCamera.mm in Sources */ = {isa = PBXBuildFile; fileRef = 539421AD2384CB6E00418753 /* OpenCVCamera.mm */; };
 		539421B12384D55800418753 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 539421B02384D55800418753 /* AVFoundation.framework */; };
 		539421B32384D5FF00418753 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 539421B22384D5FF00418753 /* CoreMedia.framework */; };
 		539421B62386160300418753 /* OpenCVImageProcessor.mm in Sources */ = {isa = PBXBuildFile; fileRef = 539421B52386160300418753 /* OpenCVImageProcessor.mm */; };
@@ -30,6 +29,7 @@
 		539421F5238E0AF900418753 /* TestAccelerate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539421F4238E0AF800418753 /* TestAccelerate.swift */; };
 		53D671D023A6F2BC0002EA42 /* FilteredDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D671CF23A6F2BC0002EA42 /* FilteredDataViewController.swift */; };
 		53D671D323A828120002EA42 /* FilterChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D671D223A828120002EA42 /* FilterChartView.swift */; };
+		53D671D523A93A010002EA42 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D671D423A93A010002EA42 /* Settings.swift */; };
 		53DB4DCD239896B100E30568 /* BalloonMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DB4DCC239896B100E30568 /* BalloonMarker.swift */; };
 		53DB4DCF2399D15500E30568 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DB4DCE2399D15500E30568 /* SettingsViewController.swift */; };
 		53DB4E0D23A17E9300E30568 /* HeartRateCalculation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DB4E0C23A17E9200E30568 /* HeartRateCalculation.swift */; };
@@ -77,8 +77,6 @@
 		5394216923835A8B00418753 /* OpenCVWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenCVWrapper.h; sourceTree = "<group>"; };
 		5394216A23835A8B00418753 /* OpenCVWrapper.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVWrapper.mm; sourceTree = "<group>"; };
 		5394216C23835B3500418753 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
-		539421AC2384CB6E00418753 /* OpenCVCamera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenCVCamera.h; sourceTree = "<group>"; };
-		539421AD2384CB6E00418753 /* OpenCVCamera.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVCamera.mm; sourceTree = "<group>"; };
 		539421B02384D55800418753 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		539421B22384D5FF00418753 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		539421B42386160300418753 /* OpenCVImageProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenCVImageProcessor.h; sourceTree = "<group>"; };
@@ -88,6 +86,7 @@
 		539421F4238E0AF800418753 /* TestAccelerate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAccelerate.swift; sourceTree = "<group>"; };
 		53D671CF23A6F2BC0002EA42 /* FilteredDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredDataViewController.swift; sourceTree = "<group>"; };
 		53D671D223A828120002EA42 /* FilterChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterChartView.swift; sourceTree = "<group>"; };
+		53D671D423A93A010002EA42 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		53DB4DCC239896B100E30568 /* BalloonMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BalloonMarker.swift; sourceTree = "<group>"; };
 		53DB4DCE2399D15500E30568 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		53DB4E0C23A17E9200E30568 /* HeartRateCalculation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateCalculation.swift; sourceTree = "<group>"; };
@@ -149,8 +148,6 @@
 		5394212A2383599A00418753 = {
 			isa = PBXGroup;
 			children = (
-				539421AC2384CB6E00418753 /* OpenCVCamera.h */,
-				539421AD2384CB6E00418753 /* OpenCVCamera.mm */,
 				5394216923835A8B00418753 /* OpenCVWrapper.h */,
 				5394216A23835A8B00418753 /* OpenCVWrapper.mm */,
 				539421B42386160300418753 /* OpenCVImageProcessor.h */,
@@ -187,6 +184,7 @@
 				539421F2238DF38100418753 /* RawDataViewController.swift */,
 				53D671CF23A6F2BC0002EA42 /* FilteredDataViewController.swift */,
 				53DB4DCE2399D15500E30568 /* SettingsViewController.swift */,
+				53D671D423A93A010002EA42 /* Settings.swift */,
 				5394213C2383599A00418753 /* Main.storyboard */,
 				53DB4DCC239896B100E30568 /* BalloonMarker.swift */,
 				534EC9D623934B2C0053F924 /* FFTDataViewController.swift */,
@@ -475,7 +473,6 @@
 			files = (
 				5394213B2383599A00418753 /* ViewController.swift in Sources */,
 				53DB4E0D23A17E9300E30568 /* HeartRateCalculation.swift in Sources */,
-				539421AE2384CB6E00418753 /* OpenCVCamera.mm in Sources */,
 				53D671D323A828120002EA42 /* FilterChartView.swift in Sources */,
 				539421372383599A00418753 /* AppDelegate.swift in Sources */,
 				53DB4DCD239896B100E30568 /* BalloonMarker.swift in Sources */,
@@ -484,6 +481,7 @@
 				539421F5238E0AF900418753 /* TestAccelerate.swift in Sources */,
 				539421B62386160300418753 /* OpenCVImageProcessor.mm in Sources */,
 				539421F3238DF38100418753 /* RawDataViewController.swift in Sources */,
+				53D671D523A93A010002EA42 /* Settings.swift in Sources */,
 				534EC9D723934B2C0053F924 /* FFTDataViewController.swift in Sources */,
 				534EC9DB23946BFC0053F924 /* RGBSampleData.swift in Sources */,
 				53DB4DCF2399D15500E30568 /* SettingsViewController.swift in Sources */,

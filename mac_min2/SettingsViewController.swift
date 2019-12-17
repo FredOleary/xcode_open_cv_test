@@ -13,6 +13,7 @@ class SettingsViewController: UIViewController {
     
     @IBOutlet weak var FilterResponse: CombinedChartView!
     
+    @IBOutlet weak var framesPerHRSampleTextBox: UITextField!
     var pauseBetweenSamples : Bool = false
     
     var filterStart:Double  = 42/60.0
@@ -21,19 +22,26 @@ class SettingsViewController: UIViewController {
     var endFrequency:Double = 600/60
     
     @IBAction func clickPauseBetweenSamples(_ sender: Any) {
-        let defaults = UserDefaults.standard
-        pauseBetweenSamples = switchPauseBetweenSamples.isOn
-        defaults.set(pauseBetweenSamples, forKey: settingsKeys.pauseBetweenSamples )
+        Settings.setPauseBetweenSamples( switchPauseBetweenSamples.isOn )
 
     }
+    @IBAction func framesPerHrSampleChanged(_ sender: Any) {
+        if let fps = framesPerHRSampleTextBox?.text {
+            let fpsInt: Int? = Int(fps)
+            if( fpsInt != nil ){
+                Settings.setFramesPerHeartRateSample( fpsInt!)
+            }
+        }
+    }
+
     @IBOutlet weak var switchPauseBetweenSamples: UISwitch!
 
     override func viewDidLoad() {
         print("SettingsViewController - viewDidLoad")
         super.viewDidLoad()
-        let defaults = UserDefaults.standard
-        pauseBetweenSamples = defaults.bool(forKey: settingsKeys.pauseBetweenSamples)
+        pauseBetweenSamples = Settings.getPauseBetweenSamples()
         switchPauseBetweenSamples.setOn(pauseBetweenSamples, animated: true )
+        framesPerHRSampleTextBox.text = String( Settings.getFramesPerHeartRateSample() )
         
         updateGraph()
     }

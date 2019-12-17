@@ -19,9 +19,9 @@ protocol ChartReadyDelegate : AnyObject {
     func dataReady( )
 }
 
-struct settingsKeys {
-    static let pauseBetweenSamples = "pauseBetweenSamples"
-}
+//struct settingsKeys {
+//    static let pauseBetweenSamples = "pauseBetweenSamples"
+//}
 class ViewController: UIViewController, OpenCVWrapperDelegate {
     
     var cameraRunning = cameraState.stopped;
@@ -76,7 +76,8 @@ class ViewController: UIViewController, OpenCVWrapperDelegate {
         heartRateCalculation = HeartRateCalculation(openCVWrapper)
         heartRateProgress.setProgress(0, animated: false)
         openCVWrapper.delegate = self
-        openCVWrapper.initializeCamera(imageFred, imageOpenCV, frameRateLabel, heartRateProgress);
+        let framesPerHRSample:Int32 = Int32(Settings.getFramesPerHeartRateSample())
+        openCVWrapper.initializeCamera(imageFred, imageOpenCV, frameRateLabel, heartRateProgress, framesPerHRSample);
         
         LeadingConstraint.constant = -250
     }
@@ -117,11 +118,11 @@ class ViewController: UIViewController, OpenCVWrapperDelegate {
             fftDelegate = dataVC
         }
         if segue.destination is SettingsViewController{
-            var pauseBetweenSamples :Bool = false
-            let SettingsVC = segue.destination as! SettingsViewController
-            let defaults = UserDefaults.standard
-            pauseBetweenSamples = defaults.bool(forKey: settingsKeys.pauseBetweenSamples)
-            SettingsVC.pauseBetweenSamples = pauseBetweenSamples
+//            var pauseBetweenSamples :Bool = false
+//            let SettingsVC = segue.destination as! SettingsViewController
+//            let defaults = UserDefaults.standard
+//            pauseBetweenSamples = defaults.bool(forKey: settingsKeys.pauseBetweenSamples)
+//            SettingsVC.pauseBetweenSamples = pauseBetweenSamples
             
             print("SettingsVC")
         }
@@ -130,7 +131,7 @@ class ViewController: UIViewController, OpenCVWrapperDelegate {
     func framesReady(_ videoProcessingPaused: Bool ) {
         print("ViewController: framesReady videoProcessingPaused: ", videoProcessingPaused)
         if( videoProcessingPaused){
-            let pauseBetweenSamples = UserDefaults.standard.bool(forKey: settingsKeys.pauseBetweenSamples)
+            let pauseBetweenSamples = Settings.getPauseBetweenSamples()
             if( pauseBetweenSamples ){
                 DispatchQueue.main.async {
                     self.buttonVideo.setTitle("Resume Video", for: .normal)

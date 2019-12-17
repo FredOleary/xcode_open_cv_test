@@ -58,7 +58,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)initializeCamera: (UIImageView *)imageView
                         : (UIImageView *)imageOpenCV
                         : (UILabel*)heartRateLabel
-                        : (UIProgressView*)heartRateProgress;
+                        : (UIProgressView*)heartRateProgress
+                        : (int)framesPerHeartRateSample;
 
 - (void) startCamera;
 - (void) stopCamera;

@@ -24,13 +24,12 @@
     NSMutableArray* greenPixels;
     NSMutableArray* bluePixels;
     double actualFps;
-    int framesPerHeartRateSample;
+    int framesPerHRSample;
 }
 
 - (id) init {
     NSLog(@"OpenCVWrapper - Init");
     actualFps = 30.0;
-    framesPerHeartRateSample = 400;
     return self;
 }
 
@@ -71,12 +70,14 @@
 - (BOOL)initializeCamera :(UIImageView *)imageView
                          :(UIImageView *)imageOpenCV
                          :(UILabel*)heartRateLabel
-                         :(UIProgressView*)heartRateProgress{
+                         :(UIProgressView*)heartRateProgress
+                         :(int)framesPerHeartRateSample{
 
+    framesPerHRSample = framesPerHeartRateSample;
     imageProcessor = [[OpenCVImageProcessor alloc] initWithOpenCVView
                       :imageOpenCV:heartRateLabel
                       :heartRateProgress
-                      :framesPerHeartRateSample
+                      :framesPerHRSample
                       :self];
     videoCamera = [[CvVideoCamera alloc] initWithParentView:imageView];
     videoCamera.delegate = imageProcessor;
