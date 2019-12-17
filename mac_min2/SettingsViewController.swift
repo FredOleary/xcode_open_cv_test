@@ -11,7 +11,7 @@ import Charts
 
 class SettingsViewController: UIViewController {
     
-    @IBOutlet weak var FilterResponse: LineChartView!
+    @IBOutlet weak var FilterResponse: CombinedChartView!
     
     var pauseBetweenSamples : Bool = false
     
@@ -46,14 +46,15 @@ class SettingsViewController: UIViewController {
             startFrequency: startFrequency,
             endFrequency: endFrequency )
         
-        let data = LineChartData()
-        addLine(data, filterResponse, freqs, color:[NSUIColor.red], "")
+        let data = CombinedChartData()
+        addLine(data, filterResponse, freqs, color:[NSUIColor.black], "RMS filter frequency response")
+        addFilterBars( data, filterStart, filterEnd )
         
         FilterResponse.data = data
         FilterResponse.chartDescription?.text = "Filter response)"
 
     }
-    func addLine( _ lineChartData:LineChartData, _ yData:[Double], _ xData:[Double], color:[NSUIColor], _ name:String) {
+    func addLine( _ chartData:CombinedChartData, _ yData:[Double], _ xData:[Double], color:[NSUIColor], _ name:String) {
         var lineChartEntry  = [ChartDataEntry]() //this is the Array that will eventually be displayed on the graph.
         
         for i in 0..<yData.count {
@@ -65,8 +66,19 @@ class SettingsViewController: UIViewController {
         line1.drawCirclesEnabled = false
         line1.drawValuesEnabled = false
         line1.colors = color
-        lineChartData.addDataSet(line1) //Adds the line to the dataSet
+        chartData.lineData = LineChartData(dataSet: line1)
+    }
+    func addFilterBars( _ chartData:CombinedChartData, _ filterStart:Double, _ filterEnd:Double ) {
+        let start = BarChartDataEntry(x: filterStart, y: 1.0)
+        let end = BarChartDataEntry(x: filterEnd, y: 1.0)
+        let filterBars:[BarChartDataEntry] = [start, end]
+        
+        let set = BarChartDataSet(entries: filterBars, label: "Filter band")
+        set.setColor(NSUIColor.red)
 
+        let data = BarChartData(dataSets: [set])
+        data.barWidth = 0.05
+        chartData.barData = data
     }
 
 }
