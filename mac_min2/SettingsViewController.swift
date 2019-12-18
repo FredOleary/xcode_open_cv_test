@@ -10,16 +10,18 @@ import UIKit
 import Charts
 
 class SettingsViewController: UIViewController {
-    
-    @IBOutlet weak var FilterResponse: CombinedChartView!
-    
-    @IBOutlet weak var framesPerHRSampleTextBox: UITextField!
     var pauseBetweenSamples : Bool = false
-    
-    var filterStart:Double  = 42/60.0
-    var filterEnd:Double  = 150/60
     var startFrequency:Double = 15/60
     var endFrequency:Double = 600/60
+
+    @IBOutlet weak var FilterResponse: CombinedChartView!
+    @IBOutlet weak var framesPerHRSampleTextBox: UITextField!
+
+    @IBOutlet weak var filterStartTextBox: UITextField!
+    @IBOutlet weak var filterEndTextBox: UITextField!
+    @IBOutlet weak var switchPauseBetweenSamples: UISwitch!
+
+
     
     @IBAction func clickPauseBetweenSamples(_ sender: Any) {
         Settings.setPauseBetweenSamples( switchPauseBetweenSamples.isOn )
@@ -34,29 +36,50 @@ class SettingsViewController: UIViewController {
         }
     }
 
-    @IBOutlet weak var switchPauseBetweenSamples: UISwitch!
+    
+    @IBAction func filterStartChanged2(_ sender: Any) {
+        if let hz = filterStartTextBox?.text {
+            let hzDouble: Double? = Double(hz)
+            if( hzDouble != nil ){
+                Settings.setFilterStart( hzDouble!)
+                updateGraph()
+            }
+        }
+    }
+    
+    @IBAction func filterEndChanged2(_ sender: Any) {
+        if let hz = filterEndTextBox?.text {
+            let hzDouble: Double? = Double(hz)
+            if( hzDouble != nil ){
+                Settings.setFilterEnd( hzDouble!)
+                updateGraph()
+            }
+        }
 
+    }
     override func viewDidLoad() {
         print("SettingsViewController - viewDidLoad")
         super.viewDidLoad()
         pauseBetweenSamples = Settings.getPauseBetweenSamples()
         switchPauseBetweenSamples.setOn(pauseBetweenSamples, animated: true )
         framesPerHRSampleTextBox.text = String( Settings.getFramesPerHeartRateSample() )
-        
+        filterStartTextBox.text = String( Settings.getFilterStart() )
+        filterEndTextBox.text = String( Settings.getFilterEnd() )
+
         updateGraph()
     }
     func updateGraph(){
         let temporalFilter: TemporalFilter = TemporalFilter()
         let (filterResponse, freqs) = temporalFilter.getFilterResponse(
             fps: 30.0,
-            filterStart: filterStart,
-            filterEnd: filterEnd,
+            filterStart: Settings.getFilterStart(),
+            filterEnd: Settings.getFilterEnd(),
             startFrequency: startFrequency,
             endFrequency: endFrequency )
         
         let data = CombinedChartData()
         addLine(data, filterResponse, freqs, color:[NSUIColor.black], "RMS filter frequency response")
-        addFilterBars( data, filterStart, filterEnd )
+        addFilterBars( data, Settings.getFilterStart(), Settings.getFilterEnd() )
         
         FilterResponse.data = data
         FilterResponse.chartDescription?.text = "Filter response)"
