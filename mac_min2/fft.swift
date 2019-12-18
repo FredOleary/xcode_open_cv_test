@@ -22,11 +22,14 @@ class FFT {
     }
     
     fileprivate func generateBandPassFilter(_ freqs: [Double]) -> ([Double], Int, Int) {
+        let lowerFreq : Double = Settings.getFilterStart()
+        let higherFreq: Double = Settings.getFilterEnd()
+
         var minIdx = freqs.count+1
         var maxIdx = -1
         
         let bandPassFilter: [Double] = freqs.map {
-            if ($0 >= self.lowerFreq && $0 <= self.higherFreq) {
+            if ($0 >= lowerFreq && $0 <= higherFreq) {
                 return 1.0
             } else {
                 return 0.0
@@ -209,11 +212,7 @@ class FFT {
 //            print("\(k)   \(values[k])     \(result[k])")
 //        }
     }
-    
-    // The bandpass frequencies
-    let lowerFreq : Double = 0.5
-    let higherFreq: Double = 2.4
-    
+        
     // Some Math functions on Arrays
     func mul(_ x: [Double], y: [Double]) -> [Double] {
         var results = [Double](repeating: 0.0, count: x.count)
