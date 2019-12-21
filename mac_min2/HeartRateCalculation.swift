@@ -39,6 +39,11 @@ class HeartRateCalculation{
     var FFTBlueAmplitude: [Double]?
     var FFTBlueFrequency: [Double]?
 
+    // ICA processed data
+    var ICARedAmplitude: [Double]?
+    var ICAGreenAmplitude: [Double]?
+    var ICABlueAmplitude: [Double]?
+
 
     // Summary of heart rate calulations
     var heartRateRedFrequency: Double?
@@ -80,7 +85,6 @@ class HeartRateCalculation{
         normalizedGreenAmplitude = normalizePixels( rawGreenPixels! )
         normalizedBlueAmplitude = normalizePixels( rawBluePixels! )
         
-        // TODO Fix up fps/fliterLoRate/filterHiRate
         let filterStart = Settings.getFilterStart()
         let filterEnd = Settings.getFilterEnd()
         filteredRedAmplitude = normalizePixels((temporalFilter?.bandpassFilter(dataIn: normalizedRedAmplitude!, sampleRate:fps, filterLoRate: filterStart, filterHiRate: filterEnd))!)
@@ -92,7 +96,41 @@ class HeartRateCalculation{
         (FFTBlueAmplitude, FFTBlueFrequency, heartRateBlueFrequency) = fft.calculate( filteredBlueAmplitude!, fps: fps)
         heartRateFrequency = heartRateGreenFrequency // May need fixup
         
-   }
+        calculateICA()
+    }
+    func calculateICA() -> Bool {
+        if( normalizedRedAmplitude != nil ){
+            
+            assert(normalizedRedAmplitude!.count == normalizedGreenAmplitude!.count)
+            assert(normalizedRedAmplitude!.count == normalizedBlueAmplitude!.count)
+            var gridData = [Double]()
+            var inputMatrix : Matrix<Double> = Matrix(rows: normalizedRedAmplitude!.count, columns: 3, repeatedValue: 0.0)
+            for i in 0..<normalizedRedAmplitude!.count{
+                gridData.append(normalizedRedAmplitude![i])
+                gridData.append(normalizedGreenAmplitude![i])
+                gridData.append(normalizedBlueAmplitude![i])
+            }
+            inputMatrix.grid = gridData
+            
+            
+            let result = fastICA(_X: inputMatrix, compc: 3)
+            if( result.S.endIndex == 3 * normalizedRedAmplitude!.count){
+                ICARedAmplitude = [Double](repeating: 0, count: result.S.rows)
+                ICAGreenAmplitude = [Double](repeating: 0, count: result.S.rows)
+                ICABlueAmplitude = [Double](repeating: 0, count: result.S.rows)
+
+                for i in 0..<result.S.rows{
+                    ICARedAmplitude![i] = result.S.grid[i*3]
+                    ICAGreenAmplitude![i] = result.S.grid[(i*3)+1]
+                    ICABlueAmplitude![i] = result.S.grid[(i*3)+2]
+                }
+                return true
+            }
+            
+        }
+        return false
+    }
+    
     
     func normalizePixels( _ pixels:[Double] ) ->[Double]{
         var xPixels = pixels
