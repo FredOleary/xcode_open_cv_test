@@ -96,7 +96,15 @@ class HeartRateCalculation{
         (FFTBlueAmplitude, FFTBlueFrequency, heartRateBlueFrequency) = fft.calculate( filteredBlueAmplitude!, fps: fps)
         heartRateFrequency = heartRateGreenFrequency // May need fixup
         
-        calculateICA()
+        if( calculateICA()){
+            ICARedAmplitude = normalizePixels( ICARedAmplitude! )
+            ICAGreenAmplitude = normalizePixels( ICAGreenAmplitude! )
+            ICABlueAmplitude = normalizePixels( ICABlueAmplitude! )
+            ICARedAmplitude = normalizePixels((temporalFilter?.bandpassFilter(dataIn: ICARedAmplitude!, sampleRate:fps, filterLoRate: filterStart, filterHiRate: filterEnd))!)
+            ICAGreenAmplitude = normalizePixels((temporalFilter?.bandpassFilter(dataIn: ICAGreenAmplitude!, sampleRate:fps, filterLoRate: filterStart, filterHiRate: filterEnd))!)
+            ICABlueAmplitude = normalizePixels((temporalFilter?.bandpassFilter(dataIn: ICABlueAmplitude!, sampleRate:fps, filterLoRate: filterStart, filterHiRate: filterEnd))!)
+
+        }
     }
     func calculateICA() -> Bool {
         if( normalizedRedAmplitude != nil ){

@@ -50,11 +50,11 @@
                                 <rect key="frame" x="0.0" y="88" width="38" height="808"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="lMA-gZ-yI7">
-                                        <rect key="frame" x="0.0" y="0.0" width="207" height="120"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="161" height="150"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CLJ-Sb-YDx">
-                                                <rect key="frame" x="0.0" y="0.0" width="207" height="30"/>
-                                                <state key="normal" title="Show Raw RGB data">
+                                                <rect key="frame" x="0.0" y="0.0" width="161" height="30"/>
+                                                <state key="normal" title="Raw RGB data">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <connections>
@@ -62,8 +62,8 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yKM-iL-Q1F">
-                                                <rect key="frame" x="0.0" y="30" width="207" height="30"/>
-                                                <state key="normal" title="Show Filtered RGB data">
+                                                <rect key="frame" x="0.0" y="30" width="161" height="30"/>
+                                                <state key="normal" title="Filtered RGB data">
                                                     <color key="titleColor" red="0.94089353239999995" green="0.94089353239999995" blue="0.94089353239999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <connections>
@@ -71,16 +71,25 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="56e-c1-PMo">
-                                                <rect key="frame" x="0.0" y="60" width="207" height="30"/>
-                                                <state key="normal" title="Show  FFT (Filtered) RGB data">
+                                                <rect key="frame" x="0.0" y="60" width="161" height="30"/>
+                                                <state key="normal" title="FFT (Filtered) RGB data">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <connections>
                                                     <segue destination="lki-2F-dOP" kind="show" identifier="mainViewToFilteredSegue" id="6zC-aU-BWQ"/>
                                                 </connections>
                                             </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xNW-r4-TEf">
+                                                <rect key="frame" x="0.0" y="90" width="161" height="30"/>
+                                                <state key="normal" title="ICA Of Filtered data">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <segue destination="fH4-bp-L31" kind="show" id="pD6-Kk-qWr"/>
+                                                </connections>
+                                            </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k7s-i1-dGb">
-                                                <rect key="frame" x="0.0" y="90" width="207" height="30"/>
+                                                <rect key="frame" x="0.0" y="120" width="161" height="30"/>
                                                 <state key="normal" title="Settings">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
@@ -391,6 +400,37 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vnH-rs-of7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2455" y="804"/>
+        </scene>
+        <!--Data View Controller-->
+        <scene sceneID="fhC-vZ-eWd">
+            <objects>
+                <viewController id="fH4-bp-L31" customClass="ICADataViewController" customModule="mac_min2" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="VlI-Cu-wcW">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hOq-96-aBq" customClass="LineChartView" customModule="Charts">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="hOq-96-aBq" firstAttribute="trailing" secondItem="g7Y-4E-hxu" secondAttribute="trailing" id="TMi-O3-iiT"/>
+                            <constraint firstItem="hOq-96-aBq" firstAttribute="top" secondItem="g7Y-4E-hxu" secondAttribute="top" id="YuV-uU-8TS"/>
+                            <constraint firstItem="hOq-96-aBq" firstAttribute="bottom" secondItem="g7Y-4E-hxu" secondAttribute="bottom" id="hwV-Fd-psI"/>
+                            <constraint firstItem="hOq-96-aBq" firstAttribute="leading" secondItem="g7Y-4E-hxu" secondAttribute="leading" id="k7F-qp-CVx"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="g7Y-4E-hxu"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="HtU-2d-FT9"/>
+                    <connections>
+                        <outlet property="LineChart" destination="hOq-96-aBq" id="uLM-UV-das"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Log-Wp-CoK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3198" y="800"/>
         </scene>
     </scenes>
     <resources>

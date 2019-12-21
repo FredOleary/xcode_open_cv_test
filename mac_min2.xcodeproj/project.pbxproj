@@ -30,6 +30,7 @@
 		53B01C3F23AD92D800DB1983 /* ICA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B01C3C23AD92D700DB1983 /* ICA.swift */; };
 		53B01C4023AD92D800DB1983 /* Matrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B01C3D23AD92D700DB1983 /* Matrix.swift */; };
 		53B01C4123AD92D800DB1983 /* SVD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B01C3E23AD92D700DB1983 /* SVD.swift */; };
+		53B01C4323ADA65200DB1983 /* ICADataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B01C4223ADA65200DB1983 /* ICADataViewController.swift */; };
 		53D671D023A6F2BC0002EA42 /* FilteredDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D671CF23A6F2BC0002EA42 /* FilteredDataViewController.swift */; };
 		53D671D323A828120002EA42 /* FilterChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D671D223A828120002EA42 /* FilterChartView.swift */; };
 		53D671D523A93A010002EA42 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D671D423A93A010002EA42 /* Settings.swift */; };
@@ -90,6 +91,7 @@
 		53B01C3C23AD92D700DB1983 /* ICA.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ICA.swift; sourceTree = "<group>"; };
 		53B01C3D23AD92D700DB1983 /* Matrix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Matrix.swift; sourceTree = "<group>"; };
 		53B01C3E23AD92D700DB1983 /* SVD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVD.swift; sourceTree = "<group>"; };
+		53B01C4223ADA65200DB1983 /* ICADataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ICADataViewController.swift; sourceTree = "<group>"; };
 		53D671CF23A6F2BC0002EA42 /* FilteredDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredDataViewController.swift; sourceTree = "<group>"; };
 		53D671D223A828120002EA42 /* FilterChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterChartView.swift; sourceTree = "<group>"; };
 		53D671D423A93A010002EA42 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
@@ -189,6 +191,7 @@
 				53DB4E0C23A17E9200E30568 /* HeartRateCalculation.swift */,
 				539421F2238DF38100418753 /* RawDataViewController.swift */,
 				53D671CF23A6F2BC0002EA42 /* FilteredDataViewController.swift */,
+				53B01C4223ADA65200DB1983 /* ICADataViewController.swift */,
 				53DB4DCE2399D15500E30568 /* SettingsViewController.swift */,
 				53D671D423A93A010002EA42 /* Settings.swift */,
 				5394213C2383599A00418753 /* Main.storyboard */,
@@ -496,6 +499,7 @@
 				534EC9D723934B2C0053F924 /* FFTDataViewController.swift in Sources */,
 				534EC9DB23946BFC0053F924 /* RGBSampleData.swift in Sources */,
 				53DB4DCF2399D15500E30568 /* SettingsViewController.swift in Sources */,
+				53B01C4323ADA65200DB1983 /* ICADataViewController.swift in Sources */,
 				53B01C3F23AD92D800DB1983 /* ICA.swift in Sources */,
 				533FE05623A439D8009D7D2F /* TemporalFilter.swift in Sources */,
 				53D671D023A6F2BC0002EA42 /* FilteredDataViewController.swift in Sources */,

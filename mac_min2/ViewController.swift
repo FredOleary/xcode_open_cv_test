@@ -45,6 +45,7 @@ class ViewController: UIViewController, OpenCVWrapperDelegate {
     weak var rawDelegate: ChartReadyDelegate?
     weak var filteredDelegate: ChartReadyDelegate?
     weak var fftDelegate: ChartReadyDelegate?
+    weak var ICADelegate: ChartReadyDelegate?
 
 //    @IBAction func sendFred(_ sender: Any) {
 //        labelFred.text = openCVWrapper.openCVVersionString()
@@ -117,6 +118,15 @@ class ViewController: UIViewController, OpenCVWrapperDelegate {
             dataVC!.heartRateData = heartRateCalculation
             fftDelegate = dataVC
         }
+        if segue.destination is ICADataViewController
+        {
+            let dataVC = segue.destination as? ICADataViewController
+            dataVC!.heartRateData = heartRateCalculation
+            ICADelegate = dataVC
+        }
+
+        
+        
         if segue.destination is SettingsViewController{
 //            var pauseBetweenSamples :Bool = false
 //            let SettingsVC = segue.destination as! SettingsViewController
@@ -152,6 +162,7 @@ class ViewController: UIViewController, OpenCVWrapperDelegate {
                 self.rawDelegate?.dataReady()
                 self.fftDelegate?.dataReady()
                 self.filteredDelegate?.dataReady()
+                self.ICADelegate?.dataReady()
             }
         }
     }
