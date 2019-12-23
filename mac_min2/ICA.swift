@@ -202,9 +202,10 @@ public func ICACompute(_ _X : Matrix<Double>, _ rows: Int, _ cols: Int) -> Matri
         // lim[it + 1] <- max(Mod(Mod(diag(W1 %*% t(W))) - 1))
         TU = transpose(Wd)
         TMP = mul(W, TU)
-
-        lim[it+1] = fabs(maxDiag(x: TMP) - 1);
         
+        if( (it+1) < MAX_ITERATIONS ){
+            lim[it+1] = fabs(maxDiag(x: TMP) - 1);
+        }
         // W <- W1
         Wd = W
         

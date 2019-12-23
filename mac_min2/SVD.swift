@@ -83,7 +83,7 @@ public func fastsvd(A : Matrix<Double>) -> (error: Int, U: Matrix<Double>?, W: [
     var _A  = transpose(A)
     
     let job : UnsafeMutablePointer<Int8> = UnsafeMutablePointer<Int8>.allocate(capacity: 1)
-    job.pointee = 0x41
+    job.pointee = 0x41  // 'A'
     
 //    let job : UnsafeMutablePointer<Int8> = UnsafeMutablePointer(("A" as NSString).UTF8String)
     
@@ -127,6 +127,8 @@ public func fastsvd(A : Matrix<Double>) -> (error: Int, U: Matrix<Double>?, W: [
     var VT: Matrix<Double> = Matrix(grid: vt, rows: Int(ldvt), columns: Int(_n))
     var V : Matrix<Double> = transpose(VT)
     U = transpose(U)
+    
+    job.deallocate()
     
     return (0, U, s, V)
     
