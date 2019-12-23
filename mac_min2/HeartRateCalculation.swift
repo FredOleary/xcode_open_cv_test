@@ -44,12 +44,26 @@ class HeartRateCalculation{
     var ICAGreenAmplitude: [Double]?
     var ICABlueAmplitude: [Double]?
 
+    var ICAFFTRedAmplitude: [Double]?
+    var ICAFFTRedFrequency: [Double]?
+
+    var ICAFFTGreenAmplitude: [Double]?
+    var ICAFFTGreenFrequency: [Double]?
+
+    var ICAFFTBlueAmplitude: [Double]?
+    var ICAFFTBlueFrequency: [Double]?
+
 
     // Summary of heart rate calulations
     var heartRateRedFrequency: Double?
     var heartRateGreenFrequency: Double?
     var heartRateBlueFrequency: Double?
     
+    // Summary of heart rate calulations
+    var ICAheartRateRedFrequency: Double?
+    var ICAheartRateGreenFrequency: Double?
+    var ICAheartRateBlueFrequency: Double?
+
     // 'Calculated' HR
     var heartRateFrequency: Double?
     
@@ -103,6 +117,11 @@ class HeartRateCalculation{
             ICARedAmplitude = normalizePixels((temporalFilter?.bandpassFilter(dataIn: ICARedAmplitude!, sampleRate:fps, filterLoRate: filterStart, filterHiRate: filterEnd))!)
             ICAGreenAmplitude = normalizePixels((temporalFilter?.bandpassFilter(dataIn: ICAGreenAmplitude!, sampleRate:fps, filterLoRate: filterStart, filterHiRate: filterEnd))!)
             ICABlueAmplitude = normalizePixels((temporalFilter?.bandpassFilter(dataIn: ICABlueAmplitude!, sampleRate:fps, filterLoRate: filterStart, filterHiRate: filterEnd))!)
+
+            (ICAFFTRedAmplitude, ICAFFTRedFrequency, ICAheartRateRedFrequency) = fft.calculate( ICARedAmplitude!, fps: fps)
+            (ICAFFTGreenAmplitude, ICAFFTGreenFrequency, ICAheartRateGreenFrequency) = fft.calculate( ICAGreenAmplitude!, fps: fps)
+            (ICAFFTBlueAmplitude, ICAFFTBlueFrequency, ICAheartRateBlueFrequency) = fft.calculate( ICABlueAmplitude!, fps: fps)
+//            heartRateFrequency = heartRateGreenFrequency // May need fixup
 
         }
     }

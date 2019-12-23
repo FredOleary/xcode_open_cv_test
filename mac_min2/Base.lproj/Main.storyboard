@@ -50,7 +50,7 @@
                                 <rect key="frame" x="0.0" y="88" width="38" height="808"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="lMA-gZ-yI7">
-                                        <rect key="frame" x="0.0" y="0.0" width="161" height="150"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="161" height="180"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CLJ-Sb-YDx">
                                                 <rect key="frame" x="0.0" y="0.0" width="161" height="30"/>
@@ -88,8 +88,17 @@
                                                     <segue destination="fH4-bp-L31" kind="show" id="pD6-Kk-qWr"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k7s-i1-dGb">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="205-aU-Unz" userLabel="FFT of ICA data">
                                                 <rect key="frame" x="0.0" y="120" width="161" height="30"/>
+                                                <state key="normal" title="FFT of ICA filtered data">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <segue destination="sNr-eB-3cD" kind="show" id="cem-xq-42O"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k7s-i1-dGb">
+                                                <rect key="frame" x="0.0" y="150" width="161" height="30"/>
                                                 <state key="normal" title="Settings">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
@@ -292,6 +301,37 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nId-8k-ADj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="131.8840579710145" y="91.741071428571431"/>
+        </scene>
+        <!--Ica Fft View Controller-->
+        <scene sceneID="esD-IJ-xk7">
+            <objects>
+                <viewController id="sNr-eB-3cD" customClass="IcaFftViewController" customModule="mac_min2" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="twx-9A-hjI">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kpn-Aw-ev4" customClass="BarChartView" customModule="Charts">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="Kpn-Aw-ev4" firstAttribute="bottom" secondItem="Zt0-eE-Om2" secondAttribute="bottom" id="6AB-ss-fQF"/>
+                            <constraint firstItem="Kpn-Aw-ev4" firstAttribute="trailing" secondItem="Zt0-eE-Om2" secondAttribute="trailing" id="DCJ-0T-yS5"/>
+                            <constraint firstItem="Kpn-Aw-ev4" firstAttribute="top" secondItem="Zt0-eE-Om2" secondAttribute="top" id="cNn-Sc-iff"/>
+                            <constraint firstItem="Kpn-Aw-ev4" firstAttribute="leading" secondItem="Zt0-eE-Om2" secondAttribute="leading" id="ebC-jw-Ozb"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Zt0-eE-Om2"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="HH3-0y-Q0c"/>
+                    <connections>
+                        <outlet property="barChart" destination="Kpn-Aw-ev4" id="KQZ-Hf-27q"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6Gg-CQ-San" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-787" y="813"/>
         </scene>
         <!--Raw Data View Controller-->
         <scene sceneID="8ij-pa-cof">

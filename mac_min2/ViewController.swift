@@ -46,6 +46,7 @@ class ViewController: UIViewController, OpenCVWrapperDelegate {
     weak var filteredDelegate: ChartReadyDelegate?
     weak var fftDelegate: ChartReadyDelegate?
     weak var ICADelegate: ChartReadyDelegate?
+    weak var ICAFFTDelegate: ChartReadyDelegate?
 
 //    @IBAction func sendFred(_ sender: Any) {
 //        labelFred.text = openCVWrapper.openCVVersionString()
@@ -124,6 +125,12 @@ class ViewController: UIViewController, OpenCVWrapperDelegate {
             dataVC!.heartRateData = heartRateCalculation
             ICADelegate = dataVC
         }
+        if segue.destination is IcaFftViewController
+        {
+            let dataVC = segue.destination as? IcaFftViewController
+            dataVC!.heartRateData = heartRateCalculation
+            ICAFFTDelegate = dataVC
+        }
 
         
         
@@ -163,6 +170,7 @@ class ViewController: UIViewController, OpenCVWrapperDelegate {
                 self.fftDelegate?.dataReady()
                 self.filteredDelegate?.dataReady()
                 self.ICADelegate?.dataReady()
+                self.ICAFFTDelegate?.dataReady()
             }
         }
     }

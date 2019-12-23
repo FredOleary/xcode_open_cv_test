@@ -205,6 +205,8 @@ public func ICACompute(_ _X : Matrix<Double>, _ rows: Int, _ cols: Int) -> Matri
         
         if( (it+1) < MAX_ITERATIONS ){
             lim[it+1] = fabs(maxDiag(x: TMP) - 1);
+        }else{
+            break
         }
         // W <- W1
         Wd = W
