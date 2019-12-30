@@ -66,6 +66,7 @@ class HeartRateCalculation{
 
     // 'Calculated' HR
     var heartRateFrequency: Double?
+    var heartRateFrequencyICA: Double?
     
     let testAccelerate = TestAccelerate()
     let fft = FFT()
@@ -80,6 +81,10 @@ class HeartRateCalculation{
     }
     
     func calculateHeartRate(){
+        var ICARedMax:Double = 0
+        var ICAGreenMax:Double = 0
+        var ICABlueMax:Double = 0
+
         timeSeries = testAccelerate.makeTimeSeries()
         if( useConstRGBData ){
             let rgbSampleData = RGBSampleData()
@@ -105,9 +110,9 @@ class HeartRateCalculation{
         filteredGreenAmplitude = normalizePixels((temporalFilter?.bandpassFilter(dataIn: normalizedGreenAmplitude!, sampleRate:fps, filterLoRate: filterStart, filterHiRate: filterEnd))!)
         filteredBlueAmplitude = normalizePixels((temporalFilter?.bandpassFilter(dataIn: normalizedBlueAmplitude!, sampleRate:fps, filterLoRate: filterStart, filterHiRate: filterEnd))!)
         
-        (FFTRedAmplitude, FFTRedFrequency, heartRateRedFrequency) = fft.calculate( filteredRedAmplitude!, fps: fps)
-        (FFTGreenAmplitude, FFTGreenFrequency, heartRateGreenFrequency) = fft.calculate( filteredGreenAmplitude!, fps: fps)
-        (FFTBlueAmplitude, FFTBlueFrequency, heartRateBlueFrequency) = fft.calculate( filteredBlueAmplitude!, fps: fps)
+        (FFTRedAmplitude, FFTRedFrequency, heartRateRedFrequency, _) = fft.calculate( filteredRedAmplitude!, fps: fps)
+        (FFTGreenAmplitude, FFTGreenFrequency, heartRateGreenFrequency, _) = fft.calculate( filteredGreenAmplitude!, fps: fps)
+        (FFTBlueAmplitude, FFTBlueFrequency, heartRateBlueFrequency, _) = fft.calculate( filteredBlueAmplitude!, fps: fps)
         heartRateFrequency = heartRateGreenFrequency // May need fixup
         
         if( calculateICA()){
@@ -118,10 +123,19 @@ class HeartRateCalculation{
             ICAGreenAmplitude = normalizePixels((temporalFilter?.bandpassFilter(dataIn: ICAGreenAmplitude!, sampleRate:fps, filterLoRate: filterStart, filterHiRate: filterEnd))!)
             ICABlueAmplitude = normalizePixels((temporalFilter?.bandpassFilter(dataIn: ICABlueAmplitude!, sampleRate:fps, filterLoRate: filterStart, filterHiRate: filterEnd))!)
 
-            (ICAFFTRedAmplitude, ICAFFTRedFrequency, ICAheartRateRedFrequency) = fft.calculate( ICARedAmplitude!, fps: fps)
-            (ICAFFTGreenAmplitude, ICAFFTGreenFrequency, ICAheartRateGreenFrequency) = fft.calculate( ICAGreenAmplitude!, fps: fps)
-            (ICAFFTBlueAmplitude, ICAFFTBlueFrequency, ICAheartRateBlueFrequency) = fft.calculate( ICABlueAmplitude!, fps: fps)
-//            heartRateFrequency = heartRateGreenFrequency // May need fixup
+            (ICAFFTRedAmplitude, ICAFFTRedFrequency, ICAheartRateRedFrequency, ICARedMax) = fft.calculate( ICARedAmplitude!, fps: fps)
+            (ICAFFTGreenAmplitude, ICAFFTGreenFrequency, ICAheartRateGreenFrequency, ICAGreenMax) = fft.calculate( ICAGreenAmplitude!, fps: fps)
+            (ICAFFTBlueAmplitude, ICAFFTBlueFrequency, ICAheartRateBlueFrequency, ICABlueMax) = fft.calculate( ICABlueAmplitude!, fps: fps)
+            // Take the maximim of the max RGB amplitudes
+            heartRateFrequencyICA = ICAheartRateRedFrequency
+            if( ICAGreenMax > ICARedMax){
+                heartRateFrequencyICA = ICAheartRateGreenFrequency
+                if( ICABlueMax > ICAGreenMax){
+                    heartRateFrequencyICA = ICAheartRateBlueFrequency
+                }
+            }else if( ICABlueMax > ICARedMax){
+                heartRateFrequencyICA = ICAheartRateBlueFrequency
+            }
 
         }
     }

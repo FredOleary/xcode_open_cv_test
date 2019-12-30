@@ -53,7 +53,7 @@ class FFT {
         return (bandPassFilter, minIdx, maxIdx)
     }
     
-    func calculate(_ _values: [Double], fps: Double) -> ([Double], [Double], Double){
+    func calculate(_ _values: [Double], fps: Double) -> ([Double], [Double], Double, Double){
         // ----------------------------------------------------------------
         // Copy of our input
         // ----------------------------------------------------------------
@@ -166,7 +166,7 @@ class FFT {
 //          print("Item \(index): \(element)")
 //        }
         
-        return (retSpectrum, retSeries, maxFrequency)
+        return (retSpectrum, retSeries, maxFrequency, maxFrequencyResult.0)
 //        // ----------------------------------------------------------------
 //        // Convert from polar coordinates back to rectangular coordinates.
 //        // ----------------------------------------------------------------

@@ -161,7 +161,8 @@ class ViewController: UIViewController, OpenCVWrapperDelegate {
             var heartRateStr:String = "Heart Rate: N/A"
             let hrFrequency = calculateHeartRate()
             if( hrFrequency > 0){
-                heartRateStr = NSString(format: "Heart Rate %.1f", hrFrequency) as String
+                let hrFrequencyICA = calculateHeartRateFromICA()
+                heartRateStr = NSString(format: "Heart Rate %.1f/%.1f", hrFrequency, hrFrequencyICA) as String
             }
             
             DispatchQueue.main.async {
@@ -197,30 +198,11 @@ class ViewController: UIViewController, OpenCVWrapperDelegate {
 //    }
     func calculateHeartRate() -> Double{
         return heartRateCalculation!.heartRateFrequency! * 60.0
-//        var hrFrequency:Double = 0.0
-//        if let greenPixels = openCVWrapper.getGreenPixels() as NSArray as? [Double]{
-//           let fft = FFT()
-//           let normalizedGreen =  normalizePixels(greenPixels)
-//           (_, _, hrFrequency) = fft.calculate( normalizedGreen, fps: 30.0)
-//
-//        }
-//        return hrFrequency * 60.0 // Beats per minute
     }
-//    func normalizePixels( _ pixels:[Double] ) ->[Double]{
-//        var xPixels = pixels
-//        if(pixels.count > 256){
-//            xPixels = pixels.suffix(256)
-//
-//        }
-//        if(pixels.count > 0){
-//            let min = xPixels.min()!
-//            let range = xPixels.max()! - min
-//            return xPixels.map {($0-min)/range}
-//        }else{
-//            return pixels
-//        }
-//
-//    }
+    func calculateHeartRateFromICA() -> Double{
+        return heartRateCalculation!.heartRateFrequencyICA! * 60.0
+    }
+
 
 }
 
